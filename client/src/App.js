@@ -1,9 +1,10 @@
 import React from "react";
 import './assets/styles/App.css'
-import { useState } from "react";
-import { useEffect } from "react";
-import { Login } from "./components/auth/Login";
-import { Register } from "./components/auth/Register";
+import { useState, useEffect } from "react";
+import { Login } from "./pages/auth/Login";
+import { Register } from "./pages/auth/Register";
+import { Home } from "./pages/home";
+import { BrowserRouter as Route, Router, Routes } from 'react-router-dom';
 // import { Component } from "react";
 
 function App() {
@@ -28,9 +29,14 @@ function App() {
 
   return (
     <div className="App">
-      {
+      {/* {
         currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
-      }
+      } */}
+      <Router>
+        <Routes>
+          <Route path="/" exact component={Home} />
+        </Routes>
+      </Router>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { Row, Col } from "antd";
 import { withTranslation } from "react-i18next";
-import { SvgIcon } from "../../common/SvgIcon";
-import Container from "../../common/Container";
+import { SvgIcon } from "../../common/svgIcon";
+import Container from "../../common/container";
 
 import i18n from "i18next";
 

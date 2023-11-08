@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Row, Col, Drawer } from "antd";
 import { withTranslation } from "react-i18next";
-import Container from "../../common/Container";
-import SvgIcon from "../../common/SvgIcon"; // Assuming SvgIcon is a default import
-import Button from "../../common/Button"; // Assuming Button is a default import
+import Container from "../../common/container";
+import SvgIcon from "../../common/svgIcon"; // Assuming SvgIcon is a default import
+import Button from "../../common/button"; // Assuming Button is a default import
 import {
   HeaderSection,
   LogoContainer,
@@ -14,7 +14,7 @@ import {
   Label,
   Outline,
   Span,
-} from "./Header.js";
+} from "./styles";
 
 const Header = ({ t }) => {
   const [visible, setVisibility] = useState(false);
