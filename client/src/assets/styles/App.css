@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
   display: flex;
   min-height: 100vh;
@@ -6,7 +6,7 @@
   justify-content: center;
   color: #0000FF;
   background-image: linear-gradient(79deg, #87CEFA, #ADD8E6 48%, #00BFFF);
-}
+} */
 
 
 .auth-form-container, .login-form, .register-form {

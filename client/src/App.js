@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { Login } from "./pages/auth/Login";
 import { Register } from "./pages/auth/Register";
 import { Home } from "./pages/home";
-import { BrowserRouter as Route, Router, Routes } from 'react-router-dom';
+import Header from "./components/header";
+import Footer from "./components/footer";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 // import { Component } from "react";
 
 function App() {
-  // class App extends Component {
   const [currentForm, setCurrentForm] = useState('login');
 
   const toggleForm = (formName) => {
@@ -28,46 +30,26 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      {/* {
-        currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
-      } */}
-      <Router>
+    <Router>
+      <div className="App">
+        {
+          // currentForm === "login" ? (
+          //   <Login onFormSwitch={toggleForm} />
+          // ) : (
+          //   <Register onFormSwitch={toggleForm} />
+          // )
+        }
+        <Header />
         <Routes>
-          <Route path="/" exact component={Home} />
+          <Route path="/" element={<Home />} />
+          <Route path="login" element={<Login onFormSwitch={toggleForm} />} />
+          <Route path="register" element={<Register onFormSwitch={toggleForm} />} />
         </Routes>
-      </Router>
-    </div>
+        <Footer />
+      </div>
+    </Router>
+
   );
 }
-
-// class App extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = { apiResponse: "" };
-//   }
-
-//   callAPI() {
-//     fetch("http://localhost:8000")
-//       .then(res => res.text())
-//       .then(res => this.setState({ apiResponse: res }));
-//   }
-
-//   componentWillMount() {
-//     this.callAPI();
-//   }
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src="logo192.png" className="App-logo" alt="logo" />
-//           <h1 className="App-title">Welcome to react</h1>
-//         </header>
-//         <p className="App-intro">;{this.state.apiResponse}</p>
-//       </div>
-//     );
-
-//   }
-// }
 
 export default App;

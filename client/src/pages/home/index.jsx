@@ -34,14 +34,14 @@ export const Home = () => {
         title={AboutContent.title}
         content={AboutContent.text}
         section={AboutContent.section}
-        icon="2.png"
+        icon="2.jpg"
         id="about"
       />
       <ContentBlock
         direction="right"
         title={MissionContent.title}
         content={MissionContent.text}
-        icon="1.png"
+        icon="1.jpg"
         id="mission"
       />
       <ContentBlock
