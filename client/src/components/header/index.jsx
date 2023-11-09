@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Row, Col, Drawer } from "antd";
-import { withTranslation } from "react-i18next";
-import Container from "../../common/container";
-import {SvgIcon} from "../../common/svgIcon"; // Assuming SvgIcon is a default import
-import {Button} from "../../common/button"; // Assuming Button is a default import
+import { useState } from "react"
+import { Row, Col, Drawer } from "antd"
+import { withTranslation } from "react-i18next"
+import Container from "../../common/container"
+import { SvgIcon } from "../../common/svgIcon"
+import { Button } from "../../common/button"
 import {
   HeaderSection,
   LogoContainer,
@@ -13,24 +13,24 @@ import {
   CustomNavLinkSmall,
   Label,
   Outline,
-  Span,
-} from "./styles";
+  Span
+} from "./styles"
 
 const Header = ({ t }) => {
-  const [visible, setVisibility] = useState(false);
+  const [visible, setVisibility] = useState(false)
 
   const toggleButton = () => {
-    setVisibility(!visible);
-  };
+    setVisibility(!visible)
+  }
 
   const MenuItem = () => {
-    const scrollTo = (id) => {
-      const element = document.getElementById(id);
+    const scrollTo = id => {
+      const element = document.getElementById(id)
       element.scrollIntoView({
-        behavior: "smooth",
-      });
-      setVisibility(false);
-    };
+        behavior: "smooth"
+      })
+      setVisibility(false)
+    }
     return (
       <>
         <CustomNavLinkSmall onClick={() => scrollTo("about")}>
@@ -45,19 +45,25 @@ const Header = ({ t }) => {
         <CustomNavLinkSmall onClick={() => scrollTo("contact")}>
           <Span>{t("Sản Phẩm")}</Span>
         </CustomNavLinkSmall>
-        <CustomNavLinkSmall style={{ width: "120px" }} onClick={() => scrollTo("contact")}>
+        <CustomNavLinkSmall
+          style={{ width: "120px" }}
+          onClick={() => scrollTo("contact")}
+        >
           <Span>
             <Button>{t("Đặt lịch")}</Button>
           </Span>
         </CustomNavLinkSmall>
-        <CustomNavLinkSmall style={{ width: "120px" }} onClick={() => scrollTo("")}>
+        <CustomNavLinkSmall
+          style={{ width: "120px" }}
+          onClick={() => scrollTo("")}
+        >
           <Span>
-            <Button>{t("Đăng nhập")}</Button>
+            <Button>{t("Đăng ký")}</Button>
           </Span>
         </CustomNavLinkSmall>
       </>
-    );
-  };
+    )
+  }
 
   return (
     <HeaderSection>
@@ -88,7 +94,7 @@ const Header = ({ t }) => {
         </Drawer>
       </Container>
     </HeaderSection>
-  );
-};
+  )
+}
 
-export default withTranslation()(Header);
+export default withTranslation()(Header)

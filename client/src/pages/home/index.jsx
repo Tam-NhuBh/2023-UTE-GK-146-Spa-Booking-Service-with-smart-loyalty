@@ -1,16 +1,16 @@
-import { lazy } from "react";
-import IntroContent from "../../content/IntroContent.json";
-import MiddleBlockContent from "../../content/MiddleBlockContent.json";
-import AboutContent from "../../content/AboutContent.json";
-import MissionContent from "../../content/MissionContent.json";
-import ProductContent from "../../content/ProductContent.json";
-import ContactContent from "../../content/ContactContent.json";
+import { lazy } from "react"
+import IntroContent from "../../content/IntroContent.json"
+import MiddleBlockContent from "../../content/MiddleBlockContent.json"
+import AboutContent from "../../content/AboutContent.json"
+import MissionContent from "../../content/MissionContent.json"
+import ProductContent from "../../content/ProductContent.json"
+import ContactContent from "../../content/ContactContent.json"
 
-const Contact = lazy(() => import("../../components/contactForm"));
-const MiddleBlock = lazy(() => import("../../components/middleBlock"));
-const Container = lazy(() => import("../../common/container"));
-const ScrollToTop = lazy(() => import("../../common/scrollToTop"));
-const ContentBlock = lazy(() => import("../../components/contentBlock"));
+const Contact = lazy(() => import("../../components/contactForm"))
+const MiddleBlock = lazy(() => import("../../components/middleBlock"))
+const Container = lazy(() => import("../../common/container"))
+const ScrollToTop = lazy(() => import("../../common/scrollToTop"))
+const ContentBlock = lazy(() => import("../../components/contentBlock"))
 
 export const Home = () => {
   return (
@@ -34,14 +34,14 @@ export const Home = () => {
         title={AboutContent.title}
         content={AboutContent.text}
         section={AboutContent.section}
-        icon="2.jpg"
+        icon="2.png"
         id="about"
       />
       <ContentBlock
         direction="right"
         title={MissionContent.title}
         content={MissionContent.text}
-        icon="1.jpg"
+        icon="1.png"
         id="mission"
       />
       <ContentBlock
@@ -57,6 +57,7 @@ export const Home = () => {
         id="contact"
       />
     </Container>
-  );
-};
+  )
+}
 
+// export default Home

@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { MenuOutlined } from "@ant-design/icons";
+import styled from "styled-components"
+import { Link } from "react-router-dom"
+import { MenuOutlined } from "@ant-design/icons"
 
 export const HeaderSection = styled("header")`
   padding: 1rem 0.5rem;
@@ -9,16 +9,16 @@ export const HeaderSection = styled("header")`
     align-items: center;
     text-align: center;
   }
-`;
+`
 
 export const LogoContainer = styled(Link)`
   display: flex;
-`;
+`
 
 export const NavLink = styled("div")`
   display: inline-block;
   text-align: center;
-`;
+`
 
 export const CustomNavLink = styled("div")`
   width: 203px;
@@ -31,7 +31,7 @@ export const CustomNavLink = styled("div")`
   @media only screen and (max-width: 320px) {
     width: 118px;
   }
-`;
+`
 
 export const Burger = styled("div")`
   @media only screen and (max-width: 890px) {
@@ -43,19 +43,19 @@ export const Burger = styled("div")`
   svg {
     fill: #2e186a;
   }
-`;
+`
 
 export const NotHidden = styled("div")`
   @media only screen and (max-width: 890px) {
     display: none;
   }
-`;
+`
 
 export const Menu = styled("h5")`
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
-`;
+`
 
 export const CustomNavLinkSmall = styled(NavLink)`
   font-size: 1.2rem;
@@ -66,7 +66,7 @@ export const CustomNavLinkSmall = styled(NavLink)`
   @media only screen and (max-width: 768px) {
     margin: 1.25rem 2rem;
   }
-`;
+`
 
 export const Label = styled("span")`
   font-weight: 500;
@@ -75,11 +75,11 @@ export const Label = styled("span")`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-`;
+`
 
 export const Outline = styled(MenuOutlined)`
   font-size: 22px;
-`;
+`
 
 export const Span = styled("span")`
   cursor: pointer;
@@ -92,4 +92,4 @@ export const Span = styled("span")`
     text-underline-position: under;
     text-decoration: rgb(255, 130, 92) wavy underline;
   }
-`;
+`

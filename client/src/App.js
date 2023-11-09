@@ -1,15 +1,15 @@
 import React from "react";
-import './assets/styles/App.css'
-import './assets/styles/Home.css'
 import { useState, useEffect } from "react";
 import { Login } from "./pages/auth/Login";
 import { Register } from "./pages/auth/Register";
 import { Home } from "./pages/home";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from "./components/header";
 import Footer from "./components/footer";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-// import { Component } from "react";
+import './assets/styles/Home.css'
+// import './assets/styles/App.css'
+
 
 function App() {
   const [currentForm, setCurrentForm] = useState('login');
@@ -33,13 +33,6 @@ function App() {
   return (
     <Router>
       <div className="Home">
-        {
-          // currentForm === "login" ? (
-          //   <Login onFormSwitch={toggleForm} />
-          // ) : (
-          //   <Register onFormSwitch={toggleForm} />
-          // )
-        }
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -49,7 +42,6 @@ function App() {
         <Footer />
       </div>
     </Router>
-
   );
 }
 

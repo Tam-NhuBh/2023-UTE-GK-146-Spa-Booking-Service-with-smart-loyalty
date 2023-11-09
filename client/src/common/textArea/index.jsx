@@ -1,5 +1,5 @@
-import { StyledTextArea, StyledContainer, Label } from "./styles";
-import { withTranslation } from 'react-i18next';
+import { withTranslation } from "react-i18next"
+import { StyledTextArea, StyledContainer, Label } from "./styles"
 
 const TextArea = ({ name, placeholder, onChange, t }) => (
   <StyledContainer>
@@ -11,6 +11,6 @@ const TextArea = ({ name, placeholder, onChange, t }) => (
       onChange={onChange}
     />
   </StyledContainer>
-);
+)
 
-export default withTranslation()(TextArea);
+export default withTranslation()(TextArea)

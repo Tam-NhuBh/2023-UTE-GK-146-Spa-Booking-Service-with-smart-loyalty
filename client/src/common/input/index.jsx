@@ -1,5 +1,6 @@
-import { withTranslation } from "react-i18next";
-import { Container, StyledInput, Label } from "./styles";
+import { withTranslation } from "react-i18next"
+import { Container, StyledInput } from "./styles"
+import { Label } from "../textArea/styles"
 
 const Input = ({ name, placeholder, onChange, t }) => (
   <Container>
@@ -11,6 +12,6 @@ const Input = ({ name, placeholder, onChange, t }) => (
       onChange={onChange}
     />
   </Container>
-);
+)
 
-export default withTranslation()(Input);
+export default withTranslation()(Input)

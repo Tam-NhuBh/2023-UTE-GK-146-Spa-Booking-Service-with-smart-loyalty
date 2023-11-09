@@ -1,43 +1,43 @@
-import { useEffect, useState } from "react";
-import { SvgIcon } from "../svgIcon";
-import { ScrollUpContainer } from "./styles";
-import { getScroll } from "../utils/getWindow";
+import { useEffect, useState } from "react"
+import { SvgIcon } from "../svgIcon"
+import { ScrollUpContainer } from "./styles"
+import { getScroll } from "../utils/getWindow"
 
 const ScrollToTop = () => {
-  const [showScroll, setShowScroll] = useState(false);
+  const [showScroll, setShowScroll] = useState(false)
 
-  const checkScrollTop = (event) => {
-    const offsetFromTop = getScroll(event.target, true);
+  const checkScrollTop = event => {
+    const offsetFromTop = getScroll(event.target, true)
 
     if (!showScroll && offsetFromTop > 350) {
-      setShowScroll(true);
+      setShowScroll(true)
     } else if (offsetFromTop <= 350) {
-      setShowScroll(false);
+      setShowScroll(false)
     }
-  };
+  }
 
   useEffect(() => {
-    window.addEventListener("scroll", checkScrollTop);
+    window.addEventListener("scroll", checkScrollTop)
     return () => {
-      window.removeEventListener("scroll", checkScrollTop);
-    };
+      window.removeEventListener("scroll", checkScrollTop)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   const scrollUp = () => {
-    const element = document.getElementById("intro");
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
-  };
+    const element = document.getElementById("intro")
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest"
+    })
+  }
 
   return (
     <ScrollUpContainer onClick={scrollUp} show={showScroll}>
-      <SvgIcon src="img/svg/scroll-top.svg" width="20px" height="20px" />
+      <SvgIcon src="scroll-top.svg" width="20px" height="20px" />
     </ScrollUpContainer>
-  );
-};
+  )
+}
 
-export default ScrollToTop;
+export default ScrollToTop

@@ -1,8 +1,9 @@
-import { Row, Col } from "antd";
-import { Fade } from "react-awesome-reveal";
-import { withTranslation } from "react-i18next";
-import { Button } from "../../common/button";
-import { SvgIcon } from "../../common/svgIcon";
+import { Row, Col } from "antd"
+import { Fade } from "react-awesome-reveal"
+import { withTranslation } from "react-i18next"
+
+import { Button } from "../../common/button"
+import { SvgIcon } from "../../common/svgIcon"
 import {
   ContentSection,
   Content,
@@ -11,8 +12,8 @@ import {
   MinTitle,
   MinPara,
   StyledRow,
-  ButtonWrapper,
-} from "./styles";
+  ButtonWrapper
+} from "./styles"
 
 const ContentBlock = ({
   icon,
@@ -22,14 +23,14 @@ const ContentBlock = ({
   button,
   t,
   id,
-  direction,
+  direction
 }) => {
-  const scrollTo = (id) => {
-    const element = document.getElementById(id);
+  const scrollTo = id => {
+    const element = document.getElementById(id)
     element.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
+      behavior: "smooth"
+    })
+  }
 
   return (
     <ContentSection>
@@ -50,45 +51,35 @@ const ContentBlock = ({
               {direction === "right" ? (
                 <ButtonWrapper>
                   {typeof button === "object" &&
-                    button.map(
-                      (
-                        item,
-                        id
-                      ) => {
-                        return (
-                          <Button
-                            key={id}
-                            color={item.color}
-                            onClick={() => scrollTo("about")}
-                          >
-                            {t(item.title)}
-                          </Button>
-                        );
-                      }
-                    )}
+                    button.map((item, id) => {
+                      return (
+                        <Button
+                          key={id}
+                          color={item.color}
+                          onClick={() => scrollTo("about")}
+                        >
+                          {t(item.title)}
+                        </Button>
+                      )
+                    })}
                 </ButtonWrapper>
               ) : (
                 <ServiceWrapper>
                   <Row justify="space-between">
                     {typeof section === "object" &&
-                      section.map(
-                        (
-                          item,
-                          id
-                        ) => {
-                          return (
-                            <Col key={id} span={11}>
-                              <SvgIcon
-                                src={item.icon}
-                                width="60px"
-                                height="60px"
-                              />
-                              <MinTitle>{t(item.title)}</MinTitle>
-                              <MinPara>{t(item.content)}</MinPara>
-                            </Col>
-                          );
-                        }
-                      )}
+                      section.map((item, id) => {
+                        return (
+                          <Col key={id} span={11}>
+                            <SvgIcon
+                              src={item.icon}
+                              width="60px"
+                              height="60px"
+                            />
+                            <MinTitle>{t(item.title)}</MinTitle>
+                            <MinPara>{t(item.content)}</MinPara>
+                          </Col>
+                        )
+                      })}
                   </Row>
                 </ServiceWrapper>
               )}
@@ -97,7 +88,7 @@ const ContentBlock = ({
         </StyledRow>
       </Fade>
     </ContentSection>
-  );
-};
+  )
+}
 
-export default withTranslation()(ContentBlock);
+export default withTranslation()(ContentBlock)

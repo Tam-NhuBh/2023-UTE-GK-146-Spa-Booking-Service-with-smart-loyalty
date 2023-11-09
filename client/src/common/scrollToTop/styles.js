@@ -1,36 +1,28 @@
-import React from "react";
+import styled from "styled-components"
 
-export const ScrollUpContainer = ({ show }) => {
-    return (
-        <div
-            style={{
-                padding: "10px",
-                position: "fixed",
-                right: "30px",
-                bottom: "30px",
-                zIndex: 10,
-                cursor: "pointer",
-                background: "rgb(241, 242, 243)",
-                textAlign: "center",
-                alignItems: "center",
-                borderRadius: "4px",
-                transition: "all 0.3s ease-in-out",
-                visibility: show ? "visible" : "hidden",
-                opacity: show ? "1" : "0",
-                display: "flex",
-            }}
-        >
-            {show && (
-                <div
-                    style={{
-                        background: "rgb(224, 224, 224)",
-                    }}
-                >
-                    {/* Add content here */}
-                </div>
-            )}
-        </div>
-    );
-};
+export const ScrollUpContainer = styled("div")`
+  padding: 10px;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 10;
+  cursor: pointer;
+  background: rgb(241, 242, 243);
+  text-align: center;
+  align-items: center;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+  visibility: ${p => (p.show ? "visible" : "hidden")};
+  opacity: ${p => (p.show ? "1" : "0")};
+  display: flex;
 
-// export default ScrollUpContainer;
+  &:hover,
+  &:active,
+  &:focus {
+    background: rgb(224, 224, 224);
+  }
+
+  @media screen and (max-width: 1240px) {
+    display: none;
+  }
+`
