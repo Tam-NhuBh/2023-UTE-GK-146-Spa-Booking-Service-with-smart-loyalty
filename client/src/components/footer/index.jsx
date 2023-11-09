@@ -48,7 +48,9 @@ const Footer = ({ t }) => {
           <Row justify="space-between">
             <Col lg={12} md={12} sm={12} xs={12}>
               <Language>{t("Liên hệ")}</Language>
-              <Para>{t(`Bạn có câu hỏi gì không? Hãy liên hệ ngay với chúng tôi.`)}</Para>
+              <Para>
+                {t(`Bạn có câu hỏi gì không? Hãy liên hệ ngay với chúng tôi.`)}
+                </Para>
               <a href="mailto:l.qqbadze@gmail.com">
                 <Chat>{t(`Trò chuyện nào`)}</Chat>
               </a>

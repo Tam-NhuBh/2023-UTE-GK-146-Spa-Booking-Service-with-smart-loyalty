@@ -1,5 +1,6 @@
 import React from "react";
 import './assets/styles/App.css'
+import './assets/styles/Home.css'
 import { useState, useEffect } from "react";
 import { Login } from "./pages/auth/Login";
 import { Register } from "./pages/auth/Register";
@@ -31,7 +32,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="Home">
         {
           // currentForm === "login" ? (
           //   <Login onFormSwitch={toggleForm} />

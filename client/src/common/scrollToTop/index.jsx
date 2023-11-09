@@ -26,16 +26,16 @@ const ScrollToTop = () => {
 
   const scrollUp = () => {
     const element = document.getElementById("intro");
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
   };
 
   return (
     <ScrollUpContainer onClick={scrollUp} show={showScroll}>
-      <SvgIcon src="scroll-top.svg" width="20px" height="20px" />
+      <SvgIcon src="img/svg/scroll-top.svg" width="20px" height="20px" />
     </ScrollUpContainer>
   );
 };

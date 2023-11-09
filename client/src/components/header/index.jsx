@@ -52,7 +52,7 @@ const Header = ({ t }) => {
         </CustomNavLinkSmall>
         <CustomNavLinkSmall style={{ width: "120px" }} onClick={() => scrollTo("")}>
           <Span>
-            <Button>{t("Đăng ký")}</Button>
+            <Button>{t("Đăng nhập")}</Button>
           </Span>
         </CustomNavLinkSmall>
       </>

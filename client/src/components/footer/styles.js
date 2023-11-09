@@ -33,8 +33,8 @@ export const Extra = styled("section")`
   background: rgb(241, 242, 243);
   position: relative;
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 40px;
+  margin-left: 40px;
   padding-bottom: 2rem;
 `;
 
