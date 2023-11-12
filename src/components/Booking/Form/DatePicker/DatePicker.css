@@ -1,0 +1,12 @@
+.component-date-picker fieldset.MuiOutlinedInput-notchedOutline {
+  border: 1px solid #d2d2d2 !important;
+}
+.component-date-picker .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-shrink {
+  color: #e6546f !important;
+}
+.component-date-picker .MuiInputBase-input.MuiOutlinedInput-input.MuiInputBase-inputAdornedEnd {
+  font-size: 12px;
+}
+.component-date-picker .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+  border-radius: 10px;
+}
