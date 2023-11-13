@@ -1,0 +1,10 @@
+.drop-menu-component .MuiOutlinedInput-notchedOutline {
+  border: 1px solid #d2d2d2 !important;
+  border-radius: 10px !important;
+}
+.drop-menu-component .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-shrink.MuiInputLabel-sizeMedium.MuiInputLabel-outlined.MuiFormLabel-colorPrimary.Mui-focused.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-shrink {
+  color: #e6546f !important;
+}
+.drop-menu-component .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input {
+  border-radius: 10px !important;
+}
