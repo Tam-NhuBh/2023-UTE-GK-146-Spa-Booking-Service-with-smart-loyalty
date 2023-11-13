@@ -10,32 +10,32 @@ import Shop from "./pages/Shop";
 
 function App() {
   return (
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <RootLayout>
-              <Home />
-            </RootLayout>
-          }
-        />
-        <Route
-          path="/service"
-          element={
-            <RootLayout>
-              <Service />
-            </RootLayout>
-          }
-          />
-        <Route
-          path="/booking"
-          element={
-            <RootLayout>
-              <Booking />
-            </RootLayout>
-          }
-        />
-        <Route
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <RootLayout>
+            <Home />
+          </RootLayout>
+        }
+      />
+      <Route
+        path="/service"
+        element={
+          <RootLayout>
+            <Service />
+          </RootLayout>
+        }
+      />
+      <Route
+        path="/booking"
+        element={
+          <RootLayout>
+            <Booking />
+          </RootLayout>
+        }
+      />
+      <Route
         path="/introduce"
         element={
           <RootLayout>
@@ -45,7 +45,7 @@ function App() {
       />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      
+
       <Route
         path="/shop"
         element={
