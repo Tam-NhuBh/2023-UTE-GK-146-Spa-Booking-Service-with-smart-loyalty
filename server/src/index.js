@@ -12,7 +12,7 @@ db.connect();
 route(app);
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:5000',
 }))
 
 app.listen(port, () => {
