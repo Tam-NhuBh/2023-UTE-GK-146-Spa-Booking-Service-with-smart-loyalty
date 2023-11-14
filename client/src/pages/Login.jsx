@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
+  const [fullname, setFullname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <div className="App">
       <div className="auth-form-container">
@@ -12,6 +16,9 @@ const Login = () => {
           <input
             className="input"
             type="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             id="email"
             name="email"
             placeholder="youremail@gmail.com"
@@ -22,6 +29,9 @@ const Login = () => {
           <input
             className="input"
             type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             id="password"
             name="password"
             placeholder="********"

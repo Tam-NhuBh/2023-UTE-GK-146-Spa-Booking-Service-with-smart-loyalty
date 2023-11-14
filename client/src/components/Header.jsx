@@ -15,9 +15,8 @@ const Header = () => {
           {routes.map((route, index) => (
             <Link to={route.path} key={index}>
               <span
-                className={`text-[#333] text-[13px] font-bold capitalize line-clamp-1 ${
-                  location.pathname === route.path ? 'text-[#efa697]' : ''
-                }`}
+                className={`text-[#333] text-[13px] font-bold capitalize line-clamp-1 ${location.pathname === route.path ? 'text-[#efa697]' : ''
+                  }`}
               >
                 {route.text}
               </span>
