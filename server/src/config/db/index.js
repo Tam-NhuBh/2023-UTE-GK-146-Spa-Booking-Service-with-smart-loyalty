@@ -7,26 +7,29 @@ const config = {
     database: 'QLSpa',
     options: {
         trustServerCertificate: true,
-        encrypt: true // If you are on Microsoft Azure, you need encryption
+        encrypt: true
     }
 };
 
-const appPool = new sql.ConnectionPool(config);
-
 async function connect() {
-    console.log('SQL connected');
-    // sql.connect(config).then(pool => {
-    // return pool.request().query('SELECT * FROM SIGNUP') // update 'your_table' with your actual table name
-    // }).then(result => {
-    // console.log(result);
-    // }).catch (err => {
-    //     console.error('Error executing query: ' + err.message);
-    // });
-
+    try {
+        console.log('SQL connected');
+    } catch (err) {
+        console.log('SQL not connected: ' + err);
+    }
 };
+
+async function getQuery(strQuery) {
+    try {
+        let pool = await sql.connect(config);
+        let res = await pool.request().query(`${strQuery}`);
+        console.log(res);
+    } catch (error) {
+        console.log('Query cannot be executed: ', err);
+    }
+}
 
 module.exports = {
     connect,
-    config,
-    appPool
+    getQuery
 };
