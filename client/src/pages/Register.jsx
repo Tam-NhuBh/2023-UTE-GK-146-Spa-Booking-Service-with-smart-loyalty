@@ -1,10 +1,21 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Register = () => {
-  const [fullname, setFullname] = useState('');
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const register = () => {
+    axios.post("http://localhost:8000/register", {
+      fullName: setFullName,
+      email: setEmail,
+      password: setPassword
+    }).then((response) => {
+      console.log(response);
+    });
+  };
 
   return (
     <div className="App">
@@ -18,12 +29,12 @@ const Register = () => {
             className="input"
             // value={name}
             type='text'
-            onChange={(e) => {
-              setFullname(e.target.value);
-            }}
             name="name"
             id="name"
             placeholder="Full Name"
+            onChange={(e) => {
+              setFullName(e.target.value);
+            }}
           />
           <label className="label" htmlFor="email">
             Email
@@ -31,12 +42,12 @@ const Register = () => {
           <input
             className="input"
             type="email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
             placeholder="youremail@gmail.com"
             id="email"
             name="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
           <label className="label" htmlFor="password">
             Password
@@ -44,14 +55,14 @@ const Register = () => {
           <input
             className="input"
             type="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
             placeholder="********"
             id="password"
             name="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
-          <button className="button" type="submit">
+          <button className="button" type="submit" onClick={register}>
             Register
           </button>
         </form>

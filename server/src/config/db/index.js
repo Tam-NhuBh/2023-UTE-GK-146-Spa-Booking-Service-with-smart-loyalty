@@ -22,7 +22,7 @@ async function connect() {
 async function getQuery(strQuery) {
     try {
         let pool = await sql.connect(config);
-        let res = await pool.request().query(`${strQuery}`);
+        let res = await pool.request().query(strQuery);
         console.log(res);
     } catch (error) {
         console.log('Query cannot be executed: ', err);
