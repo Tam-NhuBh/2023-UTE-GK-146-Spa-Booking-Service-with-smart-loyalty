@@ -7,13 +7,12 @@ const app = express();
 const port = process.env.port || 8000;
 
 app.use(cors({
-    origin: 'http://localhost:5173/'
+    origin: 'http://localhost:5173',
 }));
 app.use(express.json());
 
 // Connect to the database
-db.connect();
-db.getQuery('SELECT * FROM SIGNUP');
+db.connection.connect();
 
 route(app);
 

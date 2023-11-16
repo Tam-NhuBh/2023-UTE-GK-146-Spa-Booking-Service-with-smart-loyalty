@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import Axios from 'axios'
 
 const Register = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const register = () => {
-    axios.post("http://localhost:8000/register", {
-      fullName: setFullName,
-      email: setEmail,
-      password: setPassword
+  const handleRegister = () => {
+    Axios.post("http://localhost:8000/register", {
+      name: fullName,
+      email: email,
+      password: password
     }).then((response) => {
       console.log(response);
     });
@@ -29,12 +29,12 @@ const Register = () => {
             className="input"
             // value={name}
             type='text'
-            name="name"
-            id="name"
-            placeholder="Full Name"
             onChange={(e) => {
               setFullName(e.target.value);
             }}
+            name="name"
+            id="name"
+            placeholder="Full Name"
           />
           <label className="label" htmlFor="email">
             Email
@@ -42,12 +42,12 @@ const Register = () => {
           <input
             className="input"
             type="email"
-            placeholder="youremail@gmail.com"
-            id="email"
-            name="email"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            placeholder="youremail@gmail.com"
+            id="email"
+            name="email"
           />
           <label className="label" htmlFor="password">
             Password
@@ -55,14 +55,14 @@ const Register = () => {
           <input
             className="input"
             type="password"
-            placeholder="********"
-            id="password"
-            name="password"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            placeholder="********"
+            id="password"
+            name="password"
           />
-          <button className="button" type="submit" onClick={register}>
+          <button className="button" type="submit" onClick={handleRegister}>
             Register
           </button>
         </form>
