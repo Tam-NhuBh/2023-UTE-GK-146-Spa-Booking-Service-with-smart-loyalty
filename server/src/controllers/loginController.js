@@ -1,17 +1,29 @@
-const sql = require('mssql');
+const { response } = require('express');
+const { connection } = require('../config/db');
+const bcrypt = require('bcrypt');
+
 class loginController {
     loginExecute(req, res, next) {
-        res.send("Login");
-        console.log("Login");
-        req.app.locals.db.query('INSERT INTO QLSpa.dbo.SIGNUP(fullname, email, password) VALUES(?, ?, ?)',
-            [fullname, username, password], (err, result) => {
-                if (err) {
-                    console.error(err)
-                    res.status(500).send('SERVER ERROR')
-                    return;
-                }
-                res.status(200).json({ message: 'success' });
-            })
+        const sql = `SELECT * FROM signup WHERE email = ?`;
+        connection.query(sql, [req.body.email], (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json({ Error: "Login error in server" });
+            }
+            if (data.length > 0) {
+                bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
+                    if (err) return res.json({ Error: "Password compare error" });
+                    if (response) {
+                        return res.json({ Status: "Success" });
+                    } else {
+                        return res.json({ Error: "Password not matched" });
+                    }
+                });
+            }
+            else {
+                return res.json({ Error: "No email existed" });
+            }
+        })
     }
 }
 

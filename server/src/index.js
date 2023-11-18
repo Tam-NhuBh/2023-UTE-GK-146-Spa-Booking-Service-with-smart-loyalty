@@ -1,18 +1,27 @@
 const express = require('express');
-var cors = require("cors");
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
 const route = require('./routes/index');
-const db = require('./config/db');
+const { connection } = require('./config/db');
 
 const app = express();
 const port = process.env.port || 8000;
 
+app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
     origin: 'http://localhost:5173',
 }));
-app.use(express.json());
 
 // Connect to the database
-db.connection.connect();
+connection.connect((err) => {
+    if (err) {
+        console.log("Database Connection Failed !!!", err);
+    } else {
+        console.log("connected to Database");
+    }
+});
 
 route(app);
 

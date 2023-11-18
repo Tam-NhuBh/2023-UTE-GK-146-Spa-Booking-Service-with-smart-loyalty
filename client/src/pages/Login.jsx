@@ -1,27 +1,41 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Axios from 'axios'
 
 const Login = () => {
-  const [fullname, setFullname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  });
+  const navigate = useNavigate();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    Axios.post('http://localhost:8000/login', values)
+      .then(res => {
+        if (res.data.Status === "Success") {
+          navigate('/');
+        } else {
+          alert(res.data.Error);
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <div className="App">
       <div className="auth-form-container">
         <h2 className="text-2xl font-bold">Login</h2>
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <label className="label" htmlFor="email">
             Email
           </label>
           <input
             className="input"
             type="email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
             id="email"
             name="email"
             placeholder="youremail@gmail.com"
+            onChange={e => setValues({ ...values, email: e.target.value })}
           />
           <label className="label" htmlFor="password">
             Password
@@ -29,12 +43,10 @@ const Login = () => {
           <input
             className="input"
             type="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
             id="password"
             name="password"
             placeholder="********"
+            onChange={e => setValues({ ...values, password: e.target.value })}
           />
           <button className='button' type="submit">Submit</button>
         </form>

@@ -1,40 +1,42 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Axios from 'axios'
 
 const Register = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleRegister = () => {
-    Axios.post("http://localhost:8000/register", {
-      name: fullName,
-      email: email,
-      password: password
-    }).then((response) => {
-      console.log(response);
-    });
+  const [values, setValues] = useState({
+    fullName: '',
+    email: '',
+    password: ''
+  });
+  const navigate = useNavigate();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    Axios.post('http://localhost:8000/register', values)
+      .then(res => {
+        if (res.data.Status === "Success") {
+          navigate('/login');
+        } else {
+          alert("Error");
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   return (
     <div className="App">
       <div className="auth-form-container">
         <h2 className="text-2xl font-bold">Register</h2>
-        <form className="register-form">
+        <form className="register-form" onSubmit={handleSubmit}>
           <label className="label" htmlFor="name">
             Full name
           </label>
           <input
             className="input"
-            // value={name}
             type='text'
-            onChange={(e) => {
-              setFullName(e.target.value);
-            }}
             name="name"
             id="name"
             placeholder="Full Name"
+            onChange={e => setValues({ ...values, fullName: e.target.value })}
           />
           <label className="label" htmlFor="email">
             Email
@@ -42,12 +44,10 @@ const Register = () => {
           <input
             className="input"
             type="email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
             placeholder="youremail@gmail.com"
             id="email"
             name="email"
+            onChange={e => setValues({ ...values, email: e.target.value })}
           />
           <label className="label" htmlFor="password">
             Password
@@ -55,14 +55,12 @@ const Register = () => {
           <input
             className="input"
             type="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
             placeholder="********"
             id="password"
             name="password"
+            onChange={e => setValues({ ...values, password: e.target.value })}
           />
-          <button className="button" type="submit" onClick={handleRegister}>
+          <button className="button" type="submit">
             Register
           </button>
         </form>
