@@ -8,6 +8,7 @@ const Login = () => {
     password: ''
   });
   const navigate = useNavigate();
+  Axios.defaults.withCredentials = true;
   const handleSubmit = (event) => {
     event.preventDefault();
     Axios.post('http://localhost:8000/login', values)

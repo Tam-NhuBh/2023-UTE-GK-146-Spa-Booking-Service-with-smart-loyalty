@@ -1,14 +1,21 @@
 const { connection } = require('../config/db');
-const jws = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const salt = 10;
 
+//auto generated idUser
+
 class registerController {
+    generateIdUser() {
+        const idUser = 1;
+        return idUser;
+    }
     registerExecute(req, res) {
-        const sql = `INSERT INTO signup (fullname, email, password) VALUES (?)`;
+        const sql = `INSERT INTO user (idUser, fullname, email, password) VALUES (?)`;
         bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
             if (err) return res.json({ Error: "Error for hashing password" });
             const values = [
+                // generateUniqueId(),
+                idUser,
                 req.body.fullName,
                 req.body.email,
                 hash
