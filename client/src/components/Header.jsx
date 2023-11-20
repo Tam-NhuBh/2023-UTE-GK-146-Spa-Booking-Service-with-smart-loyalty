@@ -1,9 +1,40 @@
 import { BiSolidCartAlt } from 'react-icons/bi'
+import Axios from 'axios'
+import { useEffect, useState } from 'react'
 import { routes } from '../constants'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const Header = () => {
   const location = useLocation()
+  const navigate = useNavigate()
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    Axios.get('http://localhost:8000')
+      .then(res => {
+        if (res.data.valid) {
+          setName(res.data.fullname);
+        }
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  const handleButtonClick = () => {
+    if (name) {
+      navigate('/booking');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleLogout = () => {
+    Axios.get('http://localhost:8000/logout')
+      .then(res => {
+        window.location.reload(true);
+      })
+      .catch(err => console.log(err));
+  }
 
   return (
     <div className="w-full bg-white shadow-md flex justify-center fixed top-0 right-0 left-0 h-[74px] z-20">
@@ -15,9 +46,8 @@ const Header = () => {
           {routes.map((route, index) => (
             <Link to={route.path} key={index}>
               <span
-                className={`text-[#333] text-[13px] font-bold capitalize line-clamp-1 ${
-                  location.pathname === route.path ? 'text-[#efa697]' : ''
-                }`}
+                className={`text-[#333] text-[13px] font-bold capitalize line-clamp-1 ${location.pathname === route.path ? 'text-[#efa697]' : ''
+                  }`}
               >
                 {route.text}
               </span>
@@ -25,17 +55,31 @@ const Header = () => {
           ))}
         </div>
         <div className="flex items-center gap-[10px] sm:hidden">
-          <button className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]">
+          <button
+            onClick={handleButtonClick}
+            className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]">
             BOOK
           </button>
           <button className="text-xl px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] font-bold rounded-[5px]">
             <BiSolidCartAlt />
           </button>
-          <Link to="/register">
-            <button className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]">
-              Đăng ký
-            </button>
-          </Link>
+          {name ? (
+            <div className="flex items-center gap-[10px]">
+              <span className="text-[#efa697] text-sm font-bold">{name}</span>
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login">
+              <button className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]">
+                Đăng nhập
+              </button>
+            </Link>
+          )}
         </div>
       </header>
     </div>
