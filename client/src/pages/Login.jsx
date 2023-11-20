@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Axios from 'axios'
 
@@ -8,7 +8,22 @@ const Login = () => {
     password: ''
   });
   const navigate = useNavigate();
+
   Axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    Axios.get('http://localhost:8000')
+      .then(res => {
+        if (res.data.valid) {
+          navigate('/');
+        } else {
+          navigate('/login');
+        }
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  }, [])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     Axios.post('http://localhost:8000/login', values)

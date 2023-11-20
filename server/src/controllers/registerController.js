@@ -1,24 +1,21 @@
 const { connection } = require('../config/db');
 const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');
 const salt = 10;
 
-//auto generated idUser
-
 class registerController {
-    generateIdUser() {
-        const idUser = 1;
-        return idUser;
-    }
     registerExecute(req, res) {
-        const sql = `INSERT INTO user (idUser, fullname, email, password) VALUES (?)`;
+        req.body.customerRole = 3;
+        const idUser = uuidv4().substring(0, 9) + 'U';
+        const sql = `INSERT INTO user (idUser, fullname, email, password, idRole) VALUES (?)`;
         bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
             if (err) return res.json({ Error: "Error for hashing password" });
             const values = [
-                // generateUniqueId(),
                 idUser,
                 req.body.fullName,
                 req.body.email,
-                hash
+                hash,
+                req.body.customerRole
             ]
             connection.query(sql, [values], (err, result) => {
                 console.log("Full Name: ", req.body.fullName);

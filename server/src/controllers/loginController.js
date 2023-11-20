@@ -11,6 +11,8 @@ class loginController {
                 return res.json({ Error: "Login error in server" });
             }
             if (data.length > 0) {
+                req.session.fullName = data[0].fullname;
+                console.log(req.session.fullName);
                 bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
                     if (err) return res.json({ Error: "Password compare error" });
                     if (response) {
