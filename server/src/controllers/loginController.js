@@ -11,13 +11,12 @@ class loginController {
                 return res.json({ Error: "Login error in server" });
             }
             if (data.length > 0) {
-                req.session.fullName = data[0].fullname;
-                console.log(req.session.fullName);
                 bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
                     if (err) return res.json({ Error: "Password compare error" });
                     if (response) {
-                        const name = data[0].name;
-                        const token = jwt.sign({ name }, "jwt-secret-key", { expiresIn: '1d' });
+                        const name = data[0].fullname;
+                        console.log(name);
+                        const token = jwt.sign({ name }, "jwt-secret-key", { expiresIn: '1h' });
                         res.cookie('token', token);
                         return res.json({ Status: "Success" });
                     } else {

@@ -14,7 +14,8 @@ const Login = () => {
   useEffect(() => {
     Axios.get('http://localhost:8000')
       .then(res => {
-        if (res.data.valid) {
+        // if (res.data.valid) {
+        if (res.data.Status === "Success") {
           navigate('/');
         } else {
           navigate('/login');

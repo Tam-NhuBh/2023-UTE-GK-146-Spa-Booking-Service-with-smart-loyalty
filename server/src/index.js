@@ -18,16 +18,16 @@ app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "HEAD"],
     credentials: true,
 }));
-app.use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24
-    }
-}))
+// app.use(session({
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         secure: false,
+//         httpOnly: true,
+//         maxAge: null
+//     }
+// }))
 
 // Connect to the database
 connection.connect((err) => {

@@ -8,12 +8,18 @@ const Header = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const [name, setName] = useState('');
+  const [mess, setMess] = useState('');
+  const [auth, setAuth] = useState(false);
 
   useEffect(() => {
     Axios.get('http://localhost:8000')
       .then(res => {
-        if (res.data.valid) {
-          setName(res.data.fullname);
+        if (res.data.Status === "Success") {
+          setAuth(true);
+          setName(res.data.name);
+        } else {
+          setAuth(false);
+          setMess(res.data.Error);
         }
         console.log(res);
       })
@@ -21,7 +27,7 @@ const Header = () => {
   }, []);
 
   const handleButtonClick = () => {
-    if (name) {
+    if (auth) {
       navigate('/booking');
     } else {
       navigate('/login');
@@ -63,7 +69,7 @@ const Header = () => {
           <button className="text-xl px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] font-bold rounded-[5px]">
             <BiSolidCartAlt />
           </button>
-          {name ? (
+          {auth ? (
             <div className="flex items-center gap-[10px]">
               <span className="text-[#efa697] text-sm font-bold">{name}</span>
               <button

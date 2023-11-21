@@ -1,10 +1,23 @@
+const jwt = require('jsonwebtoken');
+
 class homeController {
-    show(req, res) {
-        if (req.session.fullName) {
-            return res.json({ valid: true, fullname: req.session.fullName });
+    verifyUser(req, res, next) {
+        const token = req.cookies.token;
+        if (!token) {
+            return res.json({ Error: "You are not Authenticated" });
         } else {
-            return res.json({ valid: false });
+            jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+                if (err) {
+                    return res.json({ Error: "Token is not ok" });
+                } else {
+                    req.name = decoded.name;
+                    next();
+                }
+            })
         }
+    }
+    show(req, res) {
+        return res.json({ Status: "Success", name: req.name });
     }
 }
 module.exports = new homeController;
