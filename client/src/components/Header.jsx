@@ -8,7 +8,6 @@ const Header = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const [name, setName] = useState('');
-  const [mess, setMess] = useState('');
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
@@ -19,7 +18,6 @@ const Header = () => {
           setName(res.data.name);
         } else {
           setAuth(false);
-          setMess(res.data.Error);
         }
         console.log(res);
       })
@@ -27,11 +25,18 @@ const Header = () => {
   }, []);
 
   const handleButtonClick = () => {
-    if (auth) {
-      navigate('/booking');
-    } else {
-      navigate('/login');
-    }
+    Axios.get('http://localhost:8000')
+      .then(res => {
+        if (auth && res.data.Status === "Success") {
+          navigate('/booking');
+        } else {
+          navigate('/login');
+        }
+      })
+      .catch(error => {
+        console.error('Error checking token:', error);
+        navigate('/login');
+      });
   };
 
   const handleLogout = () => {
