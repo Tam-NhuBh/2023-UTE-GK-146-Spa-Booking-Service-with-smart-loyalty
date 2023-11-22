@@ -41,7 +41,7 @@ const Login = () => {
   return (
     <div className="App">
       <div className="auth-form-container">
-        <h2 className="text-2xl font-bold">Login</h2>
+        <h2 className="text-2xl font-bold">Đăng nhập</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           <label className="label" htmlFor="email">
             Email
@@ -55,7 +55,7 @@ const Login = () => {
             onChange={e => setValues({ ...values, email: e.target.value })}
           />
           <label className="label" htmlFor="password">
-            Password
+            Mật khẩu
           </label>
           <input
             className="input"
@@ -69,9 +69,9 @@ const Login = () => {
         </form>
 
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          Don't have an account?&nbsp;
+          Bạn chưa có tài khoản?&nbsp;
           <Link to="/register">
-            <button className="link-btn button">Register here </button>
+            <button className="link-btn button">Đăng ký ở đây </button>
           </Link>
         </div>
       </div>

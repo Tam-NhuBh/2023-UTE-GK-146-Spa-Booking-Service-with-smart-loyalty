@@ -27,7 +27,7 @@ const Header = () => {
   const handleButtonClick = () => {
     Axios.get('http://localhost:8000')
       .then(res => {
-        if (auth && res.data.Status === "Success") {
+        if (res.data.Status === "Success") {
           navigate('/booking');
         } else {
           navigate('/login');

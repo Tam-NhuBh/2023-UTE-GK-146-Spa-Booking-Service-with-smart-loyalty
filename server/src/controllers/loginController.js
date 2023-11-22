@@ -16,9 +16,9 @@ class loginController {
                     if (response) {
                         const name = data[0].fullname;
                         console.log(name);
-                        const tokenExpiration = 1;
-                        const token = jwt.sign({ name }, "jwt-secret-key", { expiresIn: `${tokenExpiration}d` });
-                        res.cookie('token', token, { maxAge: tokenExpiration * 1000 });
+                        const tokenExpiration = 1 * 24 * 60 * 60;
+                        const token = jwt.sign({ name }, "jwt-secret-key", { expiresIn: tokenExpiration });
+                        res.cookie('token', token, { maxAge: tokenExpiration });
                         return res.json({ Status: "Success" });
                     } else {
                         return res.json({ Error: "Password not matched" });

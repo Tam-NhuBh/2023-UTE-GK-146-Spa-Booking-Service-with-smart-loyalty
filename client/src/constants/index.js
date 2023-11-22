@@ -13,10 +13,6 @@ export const routes = [
     text: 'DỊCH VỤ',
   },
   {
-    path: '/booking',
-    text: 'BOOKING',
-  },
-  {
     path: '/introduce',
     text: 'GIỚI THIỆU',
   },
