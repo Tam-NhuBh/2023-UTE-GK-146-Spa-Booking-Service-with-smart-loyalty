@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Validation from '../../../server/src/models/loginValidation'
 import Axios from 'axios'
 
 const Login = () => {
@@ -7,6 +8,12 @@ const Login = () => {
     email: '',
     password: ''
   });
+  const [error, setError] = useState({});
+
+  const handleInput = (event) => {
+    setValues(prev => setValues({ ...prev, [event.target.name]: event.target.value }))
+  }
+
   const navigate = useNavigate();
 
   Axios.defaults.withCredentials = true;
@@ -14,7 +21,6 @@ const Login = () => {
   useEffect(() => {
     Axios.get('http://localhost:8000')
       .then(res => {
-        // if (res.data.valid) {
         if (res.data.Status === "Success") {
           navigate('/');
         } else {
@@ -27,15 +33,18 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    Axios.post('http://localhost:8000/login', values)
-      .then(res => {
-        if (res.data.Status === "Success") {
-          navigate('/');
-        } else {
-          alert(res.data.Error);
-        }
-      })
-      .catch(err => console.log(err));
+    setError(Validation(values));
+    if (error.email === '' && error.password === '') {
+      Axios.post('http://localhost:8000/login', values)
+        .then(res => {
+          if (res.data.Status === "Success") {
+            navigate('/');
+          } else {
+            alert(res.data.Error);
+          }
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   return (
@@ -48,12 +57,12 @@ const Login = () => {
           </label>
           <input
             className="input"
-            type="email"
             id="email"
             name="email"
             placeholder="youremail@gmail.com"
-            onChange={e => setValues({ ...values, email: e.target.value })}
+            onChange={handleInput}
           />
+          {error.email && <span className='text-danger'>{error.email}</span>}
           <label className="label" htmlFor="password">
             Mật khẩu
           </label>
@@ -63,8 +72,9 @@ const Login = () => {
             id="password"
             name="password"
             placeholder="********"
-            onChange={e => setValues({ ...values, password: e.target.value })}
+            onChange={handleInput}
           />
+          {error.password && <span className='text-danger'>{error.password}</span>}
           <button className='button' type="submit">Submit</button>
         </form>
 

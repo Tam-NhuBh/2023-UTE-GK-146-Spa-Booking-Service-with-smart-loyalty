@@ -15,9 +15,11 @@ class loginController {
                     if (err) return res.json({ Error: "Password compare error" });
                     if (response) {
                         const name = data[0].fullname;
+                        const idRole = data[0].idRole;
+                        const idUser = data[0].idUser;
                         console.log(name);
                         const tokenExpiration = 1 * 24 * 60 * 60;
-                        const token = jwt.sign({ name }, "jwt-secret-key", { expiresIn: tokenExpiration });
+                        const token = jwt.sign({ name, idRole, idUser }, "jwt-secret-key", { expiresIn: tokenExpiration });
                         res.cookie('token', token, { maxAge: tokenExpiration });
                         return res.json({ Status: "Success" });
                     } else {
