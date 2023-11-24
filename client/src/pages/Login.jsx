@@ -39,8 +39,8 @@ const Login = () => {
         .then(res => {
           if (res.data.Status === "Success") {
             navigate('/');
-          } else {
-            alert(res.data.Error);
+          } else if (res.data.passwordError) {
+            alert(res.data.passwordError);
           }
         })
         .catch(err => console.log(err));

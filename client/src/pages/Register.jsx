@@ -82,7 +82,7 @@ const Register = () => {
                         sx={{ backgroundColor: "white" }}
                         inputProps={{
                           min: '1900-01-01',
-                          max: new Date().toISOString().split('T')[0], // Current date
+                          max: new Date().toISOString().split('T')[0],
                         }}
                       />
                       {error.birthDate && <span className='text-danger'>{error.birthDate}</span>}

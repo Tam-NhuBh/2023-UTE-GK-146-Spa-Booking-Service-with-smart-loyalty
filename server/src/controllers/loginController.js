@@ -23,7 +23,7 @@ class loginController {
                         res.cookie('token', token, { maxAge: tokenExpiration });
                         return res.json({ Status: "Success" });
                     } else {
-                        return res.json({ Error: "Password not matched" });
+                        return res.json({ passwordError: "Password not matched" });
                     }
                 });
             }

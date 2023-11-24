@@ -14,7 +14,7 @@ function Validation(values) {
     if (values.password === "") {
         error.password = 'Password should not be empty';
     } else if (!password_pattern.test(values.password)) {
-        error.password = 'Password must have at least 4 letters with first letter is capital';
+        error.password = 'Password is not matched';
     } else {
         error.password = '';
     }
