@@ -5,31 +5,31 @@ function Validation(values) {
     const phone_pattern = /^\+?[0-9\s.-]+$/
 
     if (values.birthDate === "") {
-        error.birthDate = 'This filed is required';
+        error.birthDate = 'Birthday required';
     } else {
         error.birthDate = '';
     }
 
     if (values.fullName === "") {
-        error.fullName = 'This filed is required';
+        error.fullName = 'Name required';
     } else {
         error.fullName = '';
     }
 
     if (values.address === "") {
-        error.address = 'This filed is required';
+        error.address = 'Address required';
     } else {
         error.address = '';
     }
 
     if (values.city === "") {
-        error.city = 'This filed is required';
+        error.city = 'City required';
     } else {
         error.city = '';
     }
 
     if (values.email === "") {
-        error.email = 'Email should not be empty';
+        error.email = 'Email required';
     } else if (!email_pattern.test(values.email)) {
         error.email = 'Email is not valid';
     } else {
@@ -37,7 +37,7 @@ function Validation(values) {
     }
 
     if (values.phone === "") {
-        error.phone = 'Phone number should not be empty';
+        error.phone = 'Phone number required';
     } else if (!phone_pattern.test(values.phone)) {
         error.phone = 'Phone number is not valid';
     } else {
@@ -45,7 +45,7 @@ function Validation(values) {
     }
 
     if (values.password === "") {
-        error.password = 'Password should not be empty';
+        error.password = 'Password required';
     } else if (!password_pattern.test(values.password)) {
         error.password = 'Password must have at least 4 letters with first letter is capital';
     } else {
