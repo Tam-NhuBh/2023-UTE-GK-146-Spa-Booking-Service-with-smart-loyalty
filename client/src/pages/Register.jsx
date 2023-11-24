@@ -27,20 +27,28 @@ const Register = () => {
   const [error, setError] = useState({});
 
   const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setError(Validation(values));
     if (error.fullName === '' && error.birthDate === '' && error.email === '' && error.address === ''
       && error.city === '' && error.phone === '' && error.password === '') {
-      Axios.post('http://localhost:8000/register', values)
+      Axios.post('http://localhost:8000/register/checkEmail', { email: values.email })
         .then(res => {
           if (res.data.Status === "Success") {
-            navigate('/login');
-          } else {
-            alert("Error");
+            Axios.post('http://localhost:8000/register', values)
+              .then(res => {
+                if (res.data.Status === "Success") {
+                  navigate('/login');
+                } else {
+                  alert("Error");
+                }
+              })
+              .catch(err => console.log(err));
+          } else if (res.data.emailError) {
+            setValues(prevValues => ({ ...prevValues, emailError: res.data.emailError }));
           }
         })
-        .catch(err => console.log(err));
     }
   };
 
@@ -114,6 +122,7 @@ const Register = () => {
                       onChange={e => setValues({ ...values, email: e.target.value })}
                     />
                     {error.email && <span className='text-danger'>{error.email}</span>}
+                    {values.emailError && <span className='text-danger'>{values.emailError}</span>}
                   </div>
                   <div className="flex-1 px-[10px] gap-y-[10px] flex flex-col">
                     <div className="flex items-center justify-between gap-2 lg:flex-col lg:items-start">

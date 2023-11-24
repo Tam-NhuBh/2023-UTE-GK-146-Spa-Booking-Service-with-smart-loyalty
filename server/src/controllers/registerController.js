@@ -4,6 +4,20 @@ const { v4: uuidv4 } = require('uuid');
 const salt = 10;
 
 class registerController {
+    checkEmail(req, res) {
+        console.log("Email: ", req.body.email);
+        const sql = `SELECT COUNT(*) AS count FROM user WHERE email = ? `;
+        connection.query(sql, [req.body.email], (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json(({ Error: "Error checking email existence" }))
+            }
+            if (data[0].count > 0) {
+                console.log("existed: ", data[0].count);
+                res.json({ emailError: "Email already existed" });
+            } else return res.json({ Status: "Success" });
+        })
+    };
     registerExecute(req, res) {
         req.body.customerRole = 3;
         const idUser = uuidv4().substring(0, 9) + 'U';
