@@ -11,6 +11,7 @@ function Product() {
             img={product?.img}
             price={product.price}
             title={product.title}
+            id={product?.id}
           />
         </Grid>
       ))}

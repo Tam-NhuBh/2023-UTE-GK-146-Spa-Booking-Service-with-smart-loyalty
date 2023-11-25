@@ -5,15 +5,15 @@ import Section2 from '../components/Service/Section2'
 import Section3 from '../components/Service/Section3'
 
 const Service = () => {
-    return (
-      <>
-        <Hero />
-        <Forum />
-        <Section1 />
-        <Section2 />
-        <Section3 />
-      </>
-    )
-  }
-  
-  export default Service
+  return (
+    <>
+      <Hero />
+      <Forum />
+      <Section1 />
+      <Section2 />
+      <Section3 />
+    </>
+  )
+}
+
+export default Service
