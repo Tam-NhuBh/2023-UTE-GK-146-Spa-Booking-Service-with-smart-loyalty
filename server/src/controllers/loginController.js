@@ -18,20 +18,29 @@ class loginController {
                         const idRole = data[0].idRole;
                         const idUser = data[0].idUser;
                         console.log(name);
-                        const tokenExpiration = 1 * 24 * 60 * 60;
-                        const token = jwt.sign({ name, idRole, idUser }, "jwt-secret-key", { expiresIn: tokenExpiration });
-                        res.cookie('token', token, { maxAge: tokenExpiration });
-                        return res.json({ Status: "Success" });
+                        // const tokenExpiration = 1 * 24 * 60 * 60;
+                        const token = jwt.sign({ name, idRole, idUser }, "jwt-secret-key", { expiresIn: '1d' });
+                        res.cookie('token', token, {
+                            httpOnly: true,
+                            secure: false,
+                            path: '/',
+                            sameSite: "strict"
+                        });
+                        return res.json({
+                            Status: "Success",
+                            name: data[0].fullname, idRole: data[0].idRole, idUser: data[0].idUser
+                        });
                     } else {
                         return res.json({ passwordError: "Password not matched" });
                     }
                 });
             }
             else {
-                return res.json({ Error: "No email existed" });
+                return res.json({ emailError: "No email existed" });
             }
         })
     }
+
 }
 
 module.exports = new loginController;

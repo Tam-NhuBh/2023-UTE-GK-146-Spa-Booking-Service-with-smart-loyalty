@@ -12,6 +12,8 @@ class homeController {
                         return res.json({ Error: "Token expired or invalid" });
                     } else {
                         req.name = decoded.name;
+                        req.idRole = decoded.idRole;
+                        req.idUser = decoded.idUser;
                         next();
                     }
                 })
@@ -22,7 +24,7 @@ class homeController {
         }
     }
     show(req, res) {
-        return res.json({ Status: "Success", name: req.name });
+        return res.json({ Status: "Success", name: req.name, idRole: req.idRole, idUser: req.idUser });
     }
 }
 module.exports = new homeController;

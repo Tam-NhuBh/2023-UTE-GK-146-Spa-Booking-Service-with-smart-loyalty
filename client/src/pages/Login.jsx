@@ -22,7 +22,11 @@ const Login = () => {
     Axios.get('http://localhost:8000')
       .then(res => {
         if (res.data.Status === "Success") {
-          navigate('/');
+          if (res.data.idRole === 3 || res.data.idRole === 2) {
+            navigate('/');
+          } else if (res.data.idRole === 1) {
+            navigate('/admin');
+          }
         } else {
           navigate('/login');
         }
@@ -41,6 +45,8 @@ const Login = () => {
             navigate('/');
           } else if (res.data.passwordError) {
             alert(res.data.passwordError);
+          } else if (res.data.emailError) {
+            alert(res.data.emailError);
           }
         })
         .catch(err => console.log(err));
