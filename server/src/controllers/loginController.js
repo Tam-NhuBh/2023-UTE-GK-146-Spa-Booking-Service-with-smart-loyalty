@@ -4,8 +4,13 @@ const jwt = require('jsonwebtoken');
 
 class loginController {
     loginExecute(req, res, next) {
-        const sql = `SELECT * FROM user WHERE email = ?`;
-        connection.query(sql, [req.body.email], (err, data) => {
+        // const sql = `SELECT * FROM user WHERE email = ?`;
+        const sql = (
+            "(SELECT idUser as id, fullname, email, password, idRole as role FROM user WHERE email = ?) " +
+            "UNION " +
+            "(SELECT idEmployee as id, fullname, email, password, NULL as role FROM employee WHERE email = ?)"
+        );
+        connection.query(sql, [req.body.email, req.body.email], (err, data) => {
             if (err) {
                 console.log(err);
                 return res.json({ Error: "Login error in server" });
@@ -15,10 +20,9 @@ class loginController {
                     if (err) return res.json({ Error: "Password compare error" });
                     if (response) {
                         const name = data[0].fullname;
-                        const idRole = data[0].idRole;
-                        const idUser = data[0].idUser;
+                        const idRole = data[0].role;
+                        const idUser = data[0].id;
                         console.log(name);
-                        // const tokenExpiration = 1 * 24 * 60 * 60;
                         const token = jwt.sign({ name, idRole, idUser }, "jwt-secret-key", { expiresIn: '1d' });
                         res.cookie('token', token, {
                             httpOnly: true,
@@ -28,7 +32,7 @@ class loginController {
                         });
                         return res.json({
                             Status: "Success",
-                            name: data[0].fullname, idRole: data[0].idRole, idUser: data[0].idUser
+                            name: data[0].fullname, role: data[0].role, id: data[0].id
                         });
                     } else {
                         return res.json({ passwordError: "Password not matched" });

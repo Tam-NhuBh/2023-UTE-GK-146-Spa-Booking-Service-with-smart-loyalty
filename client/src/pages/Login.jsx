@@ -22,7 +22,7 @@ const Login = () => {
     Axios.get('http://localhost:8000')
       .then(res => {
         if (res.data.Status === "Success") {
-          const idRole = res.data.idRole;
+          const idRole = res.data.role;
 
           if (idRole === 1) {
             navigate('/admin');
@@ -44,7 +44,7 @@ const Login = () => {
       Axios.post('http://localhost:8000/login', values)
         .then(res => {
           if (res.data.Status === "Success") {
-            const idRole = res.data.idRole;
+            const idRole = res.data.role;
 
             if (idRole === 1) {
               navigate('/admin');
