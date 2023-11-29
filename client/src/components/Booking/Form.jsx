@@ -11,7 +11,7 @@ const Form = () => {
             Đăng ký lịch khám
           </h2>
           <div className="flex flex-col gap-10 mt-[60px]">
-            <TopForm />
+            {/* <TopForm /> */}
             <BottomForm />
             <SubmitArea />
           </div>

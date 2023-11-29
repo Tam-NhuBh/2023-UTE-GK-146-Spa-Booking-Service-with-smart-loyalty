@@ -5,6 +5,7 @@ import appRoutes from "../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import React from "react";
 
 const Sidebar = () => {
   return (

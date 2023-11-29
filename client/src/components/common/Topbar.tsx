@@ -2,6 +2,7 @@ import { AppBar, Box, TextField, Avatar } from "@mui/material";
 import colorConfigs from "../../configs/colorConfigs";
 import sizeConfigs from "../../configs/sizeConfigs";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import React from "react";
 
 const Topbar = () => {
   return (

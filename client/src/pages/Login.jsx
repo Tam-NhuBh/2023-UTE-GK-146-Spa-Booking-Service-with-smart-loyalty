@@ -22,10 +22,12 @@ const Login = () => {
     Axios.get('http://localhost:8000')
       .then(res => {
         if (res.data.Status === "Success") {
-          if (res.data.idRole === 3 || res.data.idRole === 2) {
-            navigate('/');
-          } else if (res.data.idRole === 1) {
+          const idRole = res.data.idRole;
+
+          if (idRole === 1) {
             navigate('/admin');
+          } else {
+            navigate('/');
           }
         } else {
           navigate('/login');
@@ -42,7 +44,13 @@ const Login = () => {
       Axios.post('http://localhost:8000/login', values)
         .then(res => {
           if (res.data.Status === "Success") {
-            navigate('/');
+            const idRole = res.data.idRole;
+
+            if (idRole === 1) {
+              navigate('/admin');
+            } else {
+              navigate('/');
+            }
           } else if (res.data.passwordError) {
             alert(res.data.passwordError);
           } else if (res.data.emailError) {

@@ -1,8 +1,20 @@
 import { Box, Paper, Typography, Button, TextField } from "@mui/material";
+import React from "react";
+import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 const LoginDefaultPage = (props: Props) => {
+  const navigate = useNavigate()
+
+    const handleLogout = () => {
+    Axios.get('http://localhost:8000/logout')
+      .then(res => {
+        navigate('/');
+      })
+      .catch(err => console.log(err));
+  }
   return (
     <Paper elevation={2}>
       <Box
@@ -13,21 +25,10 @@ const LoginDefaultPage = (props: Props) => {
         flexDirection={"column"}
         alignItems={"center"}
       >
-        <Typography variant="h6">Đăng nhập hệ thống</Typography>
+        <Typography variant="h6">Đăng xuất khỏi hệ thống</Typography>
         <Box mt={4}>
-          <Box>
-            <TextField size="small" sx={{ width: 400 }} label="username" />
-          </Box>
-          <Box mt={2}>
-            <TextField
-              size="small"
-              sx={{ width: 400 }}
-              label="password"
-              type="password"
-            />
-          </Box>
-          <Box mt={2} textAlign={"center"}>
-            <Button variant="contained">Đăng nhập</Button>
+          <Box mt={1} textAlign={"center"}>
+            <Button onClick={handleLogout} variant="contained">Đăng xuất</Button>
           </Box>
         </Box>
       </Box>

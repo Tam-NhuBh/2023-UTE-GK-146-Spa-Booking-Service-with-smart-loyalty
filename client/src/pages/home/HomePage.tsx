@@ -1,4 +1,5 @@
 import { Box, Paper, Typography, Button } from "@mui/material";
+import React from "react";
 type Props = {};
 
 const HomePage = (props: Props) => {

@@ -2,11 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home";
 import Service from "./pages/Service";
-import Booking from "./pages/Booking";
 import Introduce from "./pages/Introduce";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Shop from "./pages/Shop";
+import Booking from './pages/Booking'
 import ShopLayout from "./layouts/ShopLayout";
 import ProductDetail from "./components/Product/ProductDetail";
 import { Toaster } from "react-hot-toast";
@@ -61,6 +61,14 @@ function App() {
           element={
             <RootLayout>
               <Contact />
+            </RootLayout>
+          }
+        />
+        <Route
+          path="/booking"
+          element={
+            <RootLayout>
+              <Booking />
             </RootLayout>
           }
         />
