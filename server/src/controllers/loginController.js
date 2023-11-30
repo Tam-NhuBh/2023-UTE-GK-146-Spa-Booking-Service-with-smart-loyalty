@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 class loginController {
     loginExecute(req, res, next) {
-        // const sql = `SELECT * FROM user WHERE email = ?`;
         const sql = (
             "(SELECT idUser as id, fullname, email, password, idRole as role FROM user WHERE email = ?) " +
             "UNION " +

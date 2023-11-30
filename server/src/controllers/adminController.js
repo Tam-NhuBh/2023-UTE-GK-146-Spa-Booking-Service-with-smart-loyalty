@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const salt = 10;
 
 class adminController {
+    //[GET] List customers
     listCustomer(req, res, next) {
         const sql = `SELECT idUser, fullname, email, phone, city, address FROM user WHERE idRole = 3`;
         connection.query(sql, (err, data) => {
@@ -15,6 +16,7 @@ class adminController {
             }
         })
     }
+    //[GET] List employees
     listEmployee(req, res, next) {
         const sql = `SELECT idEmployee, fullname, email, phone, city, address FROM employee`;
         connection.query(sql, (err, data) => {
@@ -26,6 +28,7 @@ class adminController {
             }
         })
     }
+    //[POST] Check Email
     staffCheckEmail(req, res, next) {
         console.log("Email: ", req.body.email);
         const sql = `SELECT COUNT(*) AS count FROM employee WHERE email = ? `;
@@ -40,6 +43,7 @@ class adminController {
             } else return res.json({ Status: "Success" });
         })
     }
+    //[POST] Staff Register by admin
     staffRegister(req, res, next) {
         const idEmployee = uuidv4().substring(0, 9) + 'E';
         const sql = `INSERT INTO employee (idEmployee, fullname, email, password, birthday, phone, city, address) VALUES (?)`;
@@ -72,6 +76,23 @@ class adminController {
                 else return res.json({ Status: "Success" });
             })
         })
+    }
+    deleteStaff(req, res, next) {
+        const idEmployee = req.params.id; // Assuming the employee ID is passed as a URL parameter
+        console.log("Employee ID: ", idEmployee)
+        const sql = `DELETE FROM employee WHERE idEmployee = ?`;
+        connection.query(sql, idEmployee, (err, result) => {
+            if (err) {
+                console.error("Error deleting employee:", err);
+                return res.json({ Status: 'Error', message: 'Internal Server Error' });
+            } else {
+                if (result.affectedRows > 0) {
+                    return res.json({ Status: 'Success', message: 'Employee deleted successfully' });
+                } else {
+                    res.json({ Error: 'Employee not found' });
+                }
+            }
+        });
     }
 }
 

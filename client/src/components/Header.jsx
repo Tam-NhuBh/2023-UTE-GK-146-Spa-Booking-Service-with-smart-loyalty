@@ -16,6 +16,9 @@ const Header = () => {
         if (res.data.Status === "Success") {
           setAuth(true);
           setName(res.data.name);
+          if (res.data.idRole === 1) {
+            navigate('/admin');
+          }
         } else {
           setAuth(false);
         }
@@ -28,7 +31,11 @@ const Header = () => {
     Axios.get('http://localhost:8000')
       .then(res => {
         if (res.data.Status === "Success") {
-          navigate('/booking');
+          if (res.data.idRole === 1) {
+            navigate('/admin');
+          } else {
+            navigate('/booking');
+          }
         } else {
           navigate('/login');
         }
