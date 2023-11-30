@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Shop from "./pages/Shop";
 import Booking from './pages/Booking'
+import Cart from "./pages/Cart";
 import ShopLayout from "./layouts/ShopLayout";
 import ProductDetail from "./components/Product/ProductDetail";
 import { Toaster } from "react-hot-toast";
@@ -61,6 +62,14 @@ function App() {
           element={
             <RootLayout>
               <Contact />
+            </RootLayout>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <RootLayout>
+              <Cart />
             </RootLayout>
           }
         />

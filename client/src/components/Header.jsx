@@ -71,7 +71,10 @@ const Header = () => {
             className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]">
             BOOK
           </button>
-          <button className="text-xl px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] font-bold rounded-[5px]">
+          <button
+            onClick={() => navigate("/cart")}
+            className="text-xl px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] font-bold rounded-[5px]"
+          >
             <BiSolidCartAlt />
           </button>
           {auth ? (
