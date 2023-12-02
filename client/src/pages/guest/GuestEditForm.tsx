@@ -3,18 +3,16 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import Validation from "../../../../server/src/models/signupValidation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Employee = {
   fullName: string;
   birthDate: string;
-  email: string;
   address: string;
   city: string;
   phone: string;
-  password: string;
   gender: string;
   emailError?: string; // Add this line
 };
@@ -22,19 +20,34 @@ type FormErrors = {
   [key in keyof Employee]?: string;
 };
 
-const StaffRegisterForm = () => {
+const StaffEditForm = () => {
+  const { id } = useParams();
   const [values, setValues] = useState<Employee>({
     fullName: "",
     birthDate: "",
-    email: "",
     address: "",
     city: "",
     phone: "",
-    password: "",
     gender: "female",
   });
   const [error, setError] = useState<FormErrors>({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    Axios.get(`http://localhost:8000/admin/customer/${id}`)
+      .then((res) => {
+        setValues({
+          ...values,
+          fullName: res.data.Result[0].fullname,
+          birthDate: res.data.Result[0].birthday.substring(0, 10),
+          address: res.data.Result[0].address,
+          city: res.data.Result[0].city,
+          phone: res.data.Result[0].phone,
+          gender: res.data.Result[0].gender,
+        });
+      })
+      .catch((err) => console.log(err));
+  }, [id]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -42,32 +55,19 @@ const StaffRegisterForm = () => {
     if (
       error.fullName === "" &&
       error.birthDate === "" &&
-      error.email === "" &&
       error.address === "" &&
       error.city === "" &&
-      error.phone === "" &&
-      error.password === ""
+      error.phone === ""
     ) {
-      Axios.post("http://localhost:8000/admin/staff/checkEmail", {
-        email: values.email,
-      }).then((res) => {
-        if (res.data.Status === "Success") {
-          Axios.post("http://localhost:8000/admin/staff/register", values)
-            .then((res) => {
-              if (res.data.Status === "Success") {
-                navigate("/admin/staff/list");
-              } else {
-                alert("Error");
-              }
-            })
-            .catch((err) => console.log(err));
-        } else if (res.data.emailError) {
-          setValues((prevValues) => ({
-            ...prevValues,
-            emailError: res.data.emailError,
-          }));
-        }
-      });
+      Axios.put(`http://localhost:8000/admin/customer/edit/${id}`, values)
+        .then((res) => {
+          if (res.data.Status === "Success") {
+            navigate("/admin/customer/list");
+          } else {
+            alert("Error");
+          }
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -81,7 +81,7 @@ const StaffRegisterForm = () => {
         flexDirection={"column"}
         alignItems={"center"}
       >
-        <Typography variant="h6">Thêm Nhân Viên</Typography>
+        <Typography variant="h6">Chỉnh Sửa Khách Hàng</Typography>
         <Box mt={4}>
           <form onSubmit={handleSubmit}>
             <Box>
@@ -97,43 +97,6 @@ const StaffRegisterForm = () => {
               <Box mt={1}>
                 {error.fullName && (
                   <span className="text-danger">{error.fullName}</span>
-                )}
-              </Box>
-            </Box>
-            <Box mt={2}>
-              <TextField
-                size="small"
-                sx={{ width: 400 }}
-                label="Email"
-                type="email"
-                onChange={(e) => {
-                  setValues({ ...values, email: e.target.value });
-                }}
-                value={values.email}
-              />
-              <Box mt={1}>
-                {error.email && (
-                  <span className="text-danger">{error.email}</span>
-                )}
-                {values.emailError && (
-                  <span className="text-danger">{values.emailError}</span>
-                )}
-              </Box>
-            </Box>
-            <Box mt={2}>
-              <TextField
-                size="small"
-                sx={{ width: 400 }}
-                label="Password"
-                type="password"
-                onChange={(e) => {
-                  setValues({ ...values, password: e.target.value });
-                }}
-                value={values.password}
-              />
-              <Box mt={1}>
-                {error.password && (
-                  <span className="text-danger">{error.password}</span>
                 )}
               </Box>
             </Box>
@@ -234,7 +197,7 @@ const StaffRegisterForm = () => {
             </Box>
             <Box mt={2} textAlign={"center"}>
               <Button variant="contained" type="submit">
-                Đăng ký
+                Chỉnh Sửa
               </Button>
             </Box>
           </form>
@@ -244,4 +207,4 @@ const StaffRegisterForm = () => {
   );
 };
 
-export default StaffRegisterForm;
+export default StaffEditForm;

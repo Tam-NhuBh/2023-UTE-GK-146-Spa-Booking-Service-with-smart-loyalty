@@ -1,6 +1,7 @@
 import { Box, Paper, Typography, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 
 type Employee = {
@@ -16,6 +17,8 @@ type Props = {};
 
 const StaffDefaultPage = (props: Props) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     Axios.get("http://localhost:8000/admin/staff/list")
       .then((res) => {
@@ -29,7 +32,9 @@ const StaffDefaultPage = (props: Props) => {
         console.error("Error fetching employees:", error);
       });
   }, []);
+
   const getRowId = (row: Employee) => row.idEmployee;
+
   const handleDelete = (id: string) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       Axios.delete(`http://localhost:8000/admin/staff/list/${id}`)
@@ -57,6 +62,14 @@ const StaffDefaultPage = (props: Props) => {
     }
   };
 
+  const handleAddNew = () => {
+    navigate("/admin/staff/register");
+  };
+  
+  const handleEdit = (id:string) => {
+    navigate(`/admin/staff/edit/${id}`);
+  };
+
   const columns = [
     { field: "idEmployee", headerName: "ID", width: 100 },
     { field: "fullname", headerName: "Tên Nhân viên", width: 200 },
@@ -70,7 +83,12 @@ const StaffDefaultPage = (props: Props) => {
       width: 300,
       renderCell: (params: any) => (
         <Box display={"flex"} gap={2} alignItems={"center"}>
-          <Button variant="contained" size="small" color="secondary">
+          <Button
+            variant="contained"
+            size="small"
+            color="secondary"
+            onClick={() => handleEdit(params.row.idEmployee as string)}
+          >
             Cập nhật
           </Button>
           <Button
@@ -91,9 +109,9 @@ const StaffDefaultPage = (props: Props) => {
       <Box px={8} py={6}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h6">Danh sách nhân viên</Typography>
-          {/* <Button variant="contained" size="small">
+          <Button variant="contained" size="small" onClick={handleAddNew}>
             Thêm mới
-          </Button> */}
+          </Button>
         </Box>
         <Box mt={4} height={"50vh"}>
           <DataGrid

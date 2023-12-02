@@ -22,7 +22,7 @@ type FormErrors = {
   [key in keyof Employee]?: string;
 };
 
-const StaffRegisterForm = () => {
+const GuestRegisterForm = () => {
   const [values, setValues] = useState<Employee>({
     fullName: "",
     birthDate: "",
@@ -48,14 +48,14 @@ const StaffRegisterForm = () => {
       error.phone === "" &&
       error.password === ""
     ) {
-      Axios.post("http://localhost:8000/admin/staff/checkEmail", {
+      Axios.post("http://localhost:8000/admin/customer/checkEmail", {
         email: values.email,
       }).then((res) => {
         if (res.data.Status === "Success") {
-          Axios.post("http://localhost:8000/admin/staff/register", values)
+          Axios.post("http://localhost:8000/admin/customer/register", values)
             .then((res) => {
               if (res.data.Status === "Success") {
-                navigate("/admin/staff/list");
+                navigate("/admin/customer/list");
               } else {
                 alert("Error");
               }
@@ -81,7 +81,7 @@ const StaffRegisterForm = () => {
         flexDirection={"column"}
         alignItems={"center"}
       >
-        <Typography variant="h6">Thêm Nhân Viên</Typography>
+        <Typography variant="h6">Thêm Khách Hàng</Typography>
         <Box mt={4}>
           <form onSubmit={handleSubmit}>
             <Box>
@@ -244,4 +244,4 @@ const StaffRegisterForm = () => {
   );
 };
 
-export default StaffRegisterForm;
+export default GuestRegisterForm;

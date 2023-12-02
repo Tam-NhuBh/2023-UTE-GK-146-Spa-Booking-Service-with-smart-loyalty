@@ -12,9 +12,12 @@ import ProductPageLayout from "../pages/product/ProductPageLayout";
 import OrderPageLayout from "../pages/order/OrderPageLayout";
 import GuestPageLayout from "../pages/guest/GuestPageLayout";
 import GuestDefaultPage from "../pages/guest/GuestDefaultPage";
+import GuestRegisterForm from '../pages/guest/GuestRegisterForm';
+import GuestEditForm from "../pages/guest/GuestEditForm";
 import StaffPageLayout from "../pages/staff/StaffPageLayout";
 import StaffDefaultPage from "../pages/staff/StaffDefaultPage";
 import StaffRegisterForm from "../pages/staff/StaffRegisterForm";
+import StaffEditForm from "../pages/staff/StaffEditFrom";
 import LoginDefaultPage from "../pages/login/LoginDefaultPage";
 import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -55,17 +58,6 @@ const appRoutes = [
           ),
         },
       },
-      // {
-      //   path: "/admin/product/analytics",
-      //   element: <AnalyticsPage />,
-      //   state: "product.analytics",
-      //   sidebarProps: {
-      //     displayText: "Danh mục sản phẩm",
-      //     icon: (
-      //       <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
-      //     ),
-      //   },
-      // },
     ],
   },
   {
@@ -110,6 +102,16 @@ const appRoutes = [
           ),
         },
       },
+      {
+        path: "/admin/customer/register",
+        element: <GuestRegisterForm />,
+        state: "customer.register",
+      },
+      {
+        path: "/admin/customer/edit/:id",
+        element: <GuestEditForm />,
+        state: "customer.edit",
+      },
     ],
   },
   {
@@ -135,49 +137,24 @@ const appRoutes = [
       {
         path: "/admin/staff/register",
         element: <StaffRegisterForm />,
-        state: "staff.list",
-        sidebarProps: {
-          displayText: "Thêm nhân viên",
-          icon: (
-            <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
-          ),
-        },
+        state: "staff.register",
+      },
+      {
+        path: "/admin/staff/edit/:id",
+        element: <StaffEditForm />,
+        state: "staff.edit",
       },
     ],
   },
-  // {
-  //   path: "/admin/account",
-  //   element: <AccountPageLayout />,
-  //   state: "account",
-  //   sidebarProps: {
-  //     displayText: "Quản lý tài khoản",
-  //     icon: <PersonOutlineOutlinedIcon />,
-  //   },
-  //   child: [
-  //     {
-  //       path: "/admin/account/default",
-  //       element: <AccountDefaultPage />,
-  //       state: "account.default",
-  //       sidebarProps: {
-  //         displayText: "Danh sách tài khoản",
-  //         icon: (
-  //           <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
-  //         ),
-  //       },
-  //     },
-  //   ],
-  // },
   {
     label: "Đăng xuất hệ thống",
     path: "/admin/logout",
     element: <LoginDefaultPage />,
     state: "logout",
     sidebarProps: {
-          displayText: "Đăng xuất",
-          icon: (
-            <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
-          ),
-        },
+      displayText: "Đăng xuất",
+      icon: <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />,
+    },
   },
 ];
 

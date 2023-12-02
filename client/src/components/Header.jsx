@@ -19,6 +19,9 @@ const Header = () => {
           if (res.data.idRole === 1) {
             navigate('/admin');
           }
+          // else {
+          //   navigate('/');
+          // }
         } else {
           setAuth(false);
         }
@@ -49,7 +52,8 @@ const Header = () => {
   const handleLogout = () => {
     Axios.get('http://localhost:8000/logout')
       .then(res => {
-        window.location.reload(true);
+        setAuth(false);
+        navigate('/');
       })
       .catch(err => console.log(err));
   }
