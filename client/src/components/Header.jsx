@@ -17,7 +17,7 @@ const Header = () => {
           setAuth(true);
           setName(res.data.name);
           if (res.data.idRole === 1) {
-            navigate('/admin');
+            // navigate('/admin');
           }
           // else {
           //   navigate('/');

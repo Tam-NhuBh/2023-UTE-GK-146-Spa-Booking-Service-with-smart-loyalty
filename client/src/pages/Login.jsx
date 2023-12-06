@@ -9,33 +9,41 @@ const Login = () => {
     password: ''
   });
   const [error, setError] = useState({});
+  const navigate = useNavigate();
+
 
   const handleInput = (event) => {
     setValues(prev => setValues({ ...prev, [event.target.name]: event.target.value }))
   }
 
-  const navigate = useNavigate();
-
   Axios.defaults.withCredentials = true;
 
-  useEffect(() => {
-    Axios.get('http://localhost:8000')
-      .then(res => {
-        if (res.data.Status === "Success") {
-          const idRole = res.data.role;
+  const checkUserAuthentication = (role) => {
+    console.log('Checking authentication. Role:', role);
+    if (role === 1) {
+      console.log('Redirecting to /admin');
+      navigate('/admin');
+    } else {
+      console.log('Redirecting to /');
+      navigate('/');
+    }
+  };
 
-          if (idRole === 1) {
-            navigate('/admin');
+
+  useEffect(() => {
+      Axios.get('http://localhost:8000')
+        .then(res => {
+          console.log('Login Response:', res); // Log the entire response
+          if (res.data.Status === "Success") {
+            const idRole = res.data.idRole;
+            console.log("idRole: ", idRole);
+            checkUserAuthentication(idRole);
           } else {
-            navigate('/');
+            navigate('/login');
           }
-        } else {
-          navigate('/login');
-        }
-        console.log(res);
-      })
-      .catch(err => console.log(err));
-  }, [])
+        })
+        .catch(err => console.log(err));
+  }, [navigate])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,12 +53,7 @@ const Login = () => {
         .then(res => {
           if (res.data.Status === "Success") {
             const idRole = res.data.role;
-
-            if (idRole === 1) {
-              navigate('/admin');
-            } else {
-              navigate('/');
-            }
+            checkUserAuthentication(idRole);
           } else if (res.data.passwordError) {
             alert(res.data.passwordError);
           } else if (res.data.emailError) {
