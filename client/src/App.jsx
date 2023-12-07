@@ -1,6 +1,11 @@
-import React, { useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { jwtDecode } from 'jwt-decode';
 import RootLayout from "./layouts/RootLayout";
+import ShopLayout from "./layouts/ShopLayout";
+import MainLayout from "./layouts/MainLayout";
+import ProductDetail from "./components/Product/ProductDetail";
 import Home from "./pages/Home";
 import Service from "./pages/Service";
 import Introduce from "./pages/Introduce";
@@ -10,14 +15,9 @@ import Shop from "./pages/Shop";
 import Booking from './pages/Booking'
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound"
-import ShopLayout from "./layouts/ShopLayout";
-import ProductDetail from "./components/Product/ProductDetail";
-import { Toaster } from "react-hot-toast";
 import Information from "./pages/Information";
 import Contact from "./pages/Contact";
-import MainLayout from "./layouts/MainLayout";
 import { routes } from "./routes";
-import { jwtDecode } from 'jwt-decode';
 
 const AdminRoute = ({ children }) => {
   const token = document.cookie
@@ -27,7 +27,7 @@ const AdminRoute = ({ children }) => {
   console.log("Token: ", token);
   if (!token) {
     console.log('No token found, redirecting to login');
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   try {
@@ -43,16 +43,51 @@ const AdminRoute = ({ children }) => {
   } catch (error) {
     console.error('Error decoding JWT:', error);
     console.log('Error decoding JWT, redirecting to login');
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 };
 
 function App() {
+  // Store the current path before redirecting
+  const location = useLocation();
+  const [isBrowserBack, setIsBrowserBack] = useState(false);
+
+  const storeRedirectPath = () => {
+    const excludedPaths = ["/admin", "/login", "/register", "/*"];
+    const currentPath = location.pathname;
+
+    // Check if the current path is not in the excluded paths
+    if (!excludedPaths.includes(currentPath)) {
+      // Store the current path in localStorage
+      localStorage.setItem('redirectPath', currentPath);
+    }
+  };
+
+  // Store the current path when the component mounts
+  useEffect(() => {
+    if (isBrowserBack) {
+      setIsBrowserBack(false);
+    } else {
+      storeRedirectPath();
+    }
+  }, [location.pathname, isBrowserBack]);
+
+  // Handle the popstate event to detect browser back actions
+  useEffect(() => {
+    const handlePopState = () => {
+      setIsBrowserBack(true);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   return (
     <>
       <Routes>
         <Route
-          path="*"
+          path="/*"
           element={
             <NotFound />
           }
@@ -126,28 +161,27 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/shop">
-          <Route
-            index
-            element={
-              <RootLayout>
-                <ShopLayout>
-                  <Shop />
-                </ShopLayout>
-              </RootLayout>
-            }
-          />
-          <Route
-            path=":id"
-            element={
-              <RootLayout>
-                <ShopLayout>
-                  <ProductDetail />
-                </ShopLayout>
-              </RootLayout>
-            }
-          />
-        </Route>
+        <Route
+          path="/shop"
+          index
+          element={
+            <RootLayout>
+              <ShopLayout>
+                <Shop/>
+              </ShopLayout>
+            </RootLayout>
+           }
+        />
+        <Route
+          path="/shop/:id"
+           element={
+            <RootLayout>
+              <ShopLayout>
+                <ProductDetail />
+              </ShopLayout>
+            </RootLayout>
+          }
+        />
       </Routes>
       <Toaster />
     </>

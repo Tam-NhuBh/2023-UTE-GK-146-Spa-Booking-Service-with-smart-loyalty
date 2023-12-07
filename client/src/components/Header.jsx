@@ -2,7 +2,7 @@ import { BiSolidCartAlt } from 'react-icons/bi'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import { routes } from '../constants'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom'
 
 const Header = () => {
   const location = useLocation()
@@ -16,12 +16,6 @@ const Header = () => {
         if (res.data.Status === "Success") {
           setAuth(true);
           setName(res.data.name);
-          if (res.data.idRole === 1) {
-            // navigate('/admin');
-          }
-          // else {
-          //   navigate('/');
-          // }
         } else {
           setAuth(false);
         }
@@ -37,9 +31,10 @@ const Header = () => {
           if (res.data.idRole === 1) {
             navigate('/admin');
           } else {
-            navigate('/booking');
+              navigate('/cart');
           }
         } else {
+          localStorage.setItem('redirectPath', '/cart');
           navigate('/login');
         }
       })
@@ -49,13 +44,21 @@ const Header = () => {
       });
   };
 
-  const handleLogout = () => {
-    Axios.get('http://localhost:8000/logout')
-      .then(res => {
-        setAuth(false);
+  const handleLogout = async () => {
+    try {
+      // Check if the user is on the /cart page
+      if (location.pathname === '/cart') {
+        // Redirect to the homepage after logout
+        localStorage.removeItem('redirectPath');
         navigate('/');
-      })
-      .catch(err => console.log(err));
+      }
+      Axios.get('http://localhost:8000/logout')
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      setAuth(false);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -78,12 +81,14 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-[10px] sm:hidden">
           <button
-            onClick={handleButtonClick}
+            // onClick={handleButtonClick}
+            onClick={() => navigate("/booking")}
             className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]">
             BOOK
           </button>
           <button
-            onClick={() => navigate("/cart")}
+            // onClick={() => navigate("/cart")}
+            onClick={handleButtonClick}
             className="text-xl px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] font-bold rounded-[5px]"
           >
             <BiSolidCartAlt />

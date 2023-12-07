@@ -28,27 +28,29 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(Validation(values));
-    if (error.fullName === '' && error.birthDate === '' && error.email === '' && error.address === ''
-      && error.city === '' && error.phone === '' && error.password === '') {
-      Axios.post('http://localhost:8000/register/checkEmail', { email: values.email })
-        .then(res => {
-          if (res.data.Status === "Success") {
-            Axios.post('http://localhost:8000/register', values)
-              .then(res => {
-                if (res.data.Status === "Success") {
-                  navigate('/login');
-                } else {
-                  alert("Error");
-                }
-              })
-              .catch(err => console.log(err));
-          } else if (res.data.emailError) {
-            setValues(prevValues => ({ ...prevValues, emailError: res.data.emailError }));
+    // Validate the form
+    const validationError = Validation(values);
+    setError(validationError);
+
+    // Check for validation errors
+    if (Object.keys(validationError).every((key) => validationError[key] === '')) {
+      try {
+        const emailCheckRes = await Axios.post('http://localhost:8000/register/checkEmail', { email: values.email })
+        if (emailCheckRes.data.Status == "Success") {
+          const registerRes = await Axios.post('http://localhost:8000/register', values)
+          if (registerRes.data.Status === "Success") {
+            navigate('/login');
+          } else {
+            alert("Error");
           }
-        })
+        } else if (emailCheckRes.data.emailError) {
+          setValues(prevValues => ({ ...prevValues, emailError: emailCheckRes.data.emailError }));
+        }
+      } catch (error) {
+        console.log("Error handleSubmit: ", error);
+      }
     }
   };
 

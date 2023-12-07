@@ -10,59 +10,67 @@ const Login = () => {
   });
   const [error, setError] = useState({});
   const navigate = useNavigate();
-
+  const redirectPath = localStorage.getItem('redirectPath') || '/';
 
   const handleInput = (event) => {
-    setValues(prev => setValues({ ...prev, [event.target.name]: event.target.value }))
+    setValues({ ...values, [event.target.name]: event.target.value });
   }
 
   Axios.defaults.withCredentials = true;
 
   const checkUserAuthentication = (role) => {
     console.log('Checking authentication. Role:', role);
+
     if (role === 1) {
       console.log('Redirecting to /admin');
       navigate('/admin');
-    } else {
-      console.log('Redirecting to /');
-      navigate('/');
+    }
+    else {
+      navigate(redirectPath);
     }
   };
-
 
   useEffect(() => {
-      Axios.get('http://localhost:8000')
-        .then(res => {
-          console.log('Login Response:', res); // Log the entire response
-          if (res.data.Status === "Success") {
-            const idRole = res.data.idRole;
-            console.log("idRole: ", idRole);
-            checkUserAuthentication(idRole);
-          } else {
-            navigate('/login');
-          }
-        })
-        .catch(err => console.log(err));
+    Axios.get('http://localhost:8000')
+      .then(res => {
+        console.log('Login Response:', res); // Log the entire response
+        if (res.data.Status === "Success") {
+          const idRole = res.data.idRole;
+          console.log("idRole: ", idRole);
+          checkUserAuthentication(idRole);
+        } else {
+          navigate('/login');
+        }
+      })
+      .catch(err => console.log(err));
   }, [navigate])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(Validation(values));
-    if (error.email === '' && error.password === '') {
-      Axios.post('http://localhost:8000/login', values)
-        .then(res => {
-          if (res.data.Status === "Success") {
-            const idRole = res.data.role;
-            checkUserAuthentication(idRole);
-          } else if (res.data.passwordError) {
-            alert(res.data.passwordError);
-          } else if (res.data.emailError) {
-            alert(res.data.emailError);
-          }
-        })
-        .catch(err => console.log(err));
+
+    // Validate the form
+    const validationError = Validation(values);
+    setError(validationError);
+
+    // Check for validation errors
+    if (Object.keys(validationError).every((key) => validationError[key] === '')) {
+      try {
+        const res = await Axios.post('http://localhost:8000/login', values);
+
+        if (res.data.Status === 'Success') {
+          const idRole = res.data.role;
+          checkUserAuthentication(idRole);
+        } else if (res.data.passwordError) {
+          alert(res.data.passwordError);
+        } else if (res.data.emailError) {
+          alert(res.data.emailError);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
+
 
   return (
     <div className="App">
