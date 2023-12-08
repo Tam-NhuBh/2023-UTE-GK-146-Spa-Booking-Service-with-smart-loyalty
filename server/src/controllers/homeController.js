@@ -33,7 +33,7 @@ class homeController {
                         });
                         return res.json({
                             Status: "Success",
-                            name: data[0].fullname, role: data[0].role, id: data[0].id
+                            name: data[0].fullname, idRole: data[0].role, idUser: data[0].id
                         });
                     } else {
                         return res.json({ passwordError: "Password not matched" });

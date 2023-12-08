@@ -18,8 +18,11 @@ const Login = () => {
 
   Axios.defaults.withCredentials = true;
 
-  const checkUserAuthentication = (role) => {
-    console.log('Checking authentication. Role:', role);
+  const checkUserAuthentication = (role, idUser) => {
+    console.log('Checking authentication. idRole:', role);
+    console.log('Checking authentication. idUser:', idUser);
+
+    localStorage.setItem('idUser', idUser);
 
     if (role === 1) {
       console.log('Redirecting to /admin');
@@ -36,8 +39,12 @@ const Login = () => {
         console.log('Login Response:', res); // Log the entire response
         if (res.data.Status === "Success") {
           const idRole = res.data.idRole;
+          const idUser = res.data.idUser;
+          console.log("idUserLocal: ", idUser);
           console.log("idRole: ", idRole);
-          checkUserAuthentication(idRole);
+          console.log('Checking authentication. idUser:', idUser);
+
+          checkUserAuthentication(idRole, idUser);
         } else {
           navigate('/login');
         }
@@ -58,8 +65,9 @@ const Login = () => {
         const res = await Axios.post('http://localhost:8000/login', values);
 
         if (res.data.Status === 'Success') {
-          const idRole = res.data.role;
-          checkUserAuthentication(idRole);
+          const idRole = res.data.idRole;
+          const idUser = res.data.idUser;
+          checkUserAuthentication(idRole, idUser);
         } else if (res.data.passwordError) {
           alert(res.data.passwordError);
         } else if (res.data.emailError) {

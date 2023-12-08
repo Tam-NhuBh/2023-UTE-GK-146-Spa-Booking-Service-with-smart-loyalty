@@ -45,6 +45,7 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
+    localStorage.removeItem('idUser');
     try {
       // Check if the user is on the /cart page
       if (location.pathname === '/cart') {
