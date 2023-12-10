@@ -15,10 +15,11 @@ import Information from "./pages/Information";
 import Contact from "./pages/Contact";
 import MainLayout from "./layouts/MainLayout";
 import { routes } from "./routes";
-
+import { Provider } from 'react-redux';
+import store from './redux/store/cart';
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <Routes>
         <Route
           path="/admin"
@@ -108,7 +109,7 @@ function App() {
         </Route>
       </Routes>
       <Toaster />
-    </>
+    </Provider>
   );
 }
 
