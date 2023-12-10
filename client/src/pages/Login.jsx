@@ -23,6 +23,7 @@ const Login = () => {
     console.log('Checking authentication. idUser:', idUser);
 
     localStorage.setItem('idUser', idUser);
+    localStorage.setItem('isLoggedIn', true);
 
     if (role === 1) {
       console.log('Redirecting to /admin');
@@ -54,7 +55,6 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     // Validate the form
     const validationError = Validation(values);
     setError(validationError);

@@ -3,9 +3,6 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { jwtDecode } from 'jwt-decode';
 import RootLayout from "./layouts/RootLayout";
-import ShopLayout from "./layouts/ShopLayout";
-import MainLayout from "./layouts/MainLayout";
-import ProductDetail from "./components/Product/ProductDetail";
 import Home from "./pages/Home";
 import Service from "./pages/Service";
 import Introduce from "./pages/Introduce";
@@ -14,10 +11,15 @@ import Register from "./pages/Register";
 import Shop from "./pages/Shop";
 import Booking from './pages/Booking'
 import Cart from "./pages/Cart";
-import NotFound from "./pages/NotFound"
+import ShopLayout from "./layouts/ShopLayout";
+import ProductDetail from "./components/Product/ProductDetail";
 import Information from "./pages/Information";
 import Contact from "./pages/Contact";
+import MainLayout from "./layouts/MainLayout";
 import { routes } from "./routes";
+import { Provider } from 'react-redux';
+import store from './redux/store/cart';
+import NotFound from "./pages/NotFound"
 
 const AdminRoute = ({ children }) => {
   const token = document.cookie
@@ -40,8 +42,8 @@ const AdminRoute = ({ children }) => {
       console.log('User is not an admin, redirecting to 404 page');
       return <Navigate to="/*" replace />;
     }
-  } catch (error) {
     console.error('Error decoding JWT:', error);
+  } catch (error) {
     console.log('Error decoding JWT, redirecting to login');
     return <Navigate to="/login" replace />;
   }
@@ -84,7 +86,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Provider store={store}>
       <Routes>
         <Route
           path="/*"
@@ -98,7 +100,8 @@ function App() {
           element={
             <AdminRoute>
               <MainLayout />
-            </AdminRoute>}
+            </AdminRoute>
+          }
         >
           {routes}
         </Route>
@@ -113,7 +116,7 @@ function App() {
         <Route
           path="/service"
           element={
-            <RootLayout>
+            < RootLayout >
               <Service />
             </RootLayout>
           }
@@ -121,70 +124,70 @@ function App() {
         <Route
           path="/introduce"
           element={
-            <RootLayout>
+            < RootLayout >
               <Introduce />
             </RootLayout>
           }
         />
-        <Route
+        < Route
           path="/information"
           element={
-            <RootLayout>
+            < RootLayout >
               <Information />
-            </RootLayout>
+            </RootLayout >
           }
         />
-        <Route
+        < Route
           path="/contact"
           element={
-            <RootLayout>
+            < RootLayout >
               <Contact />
-            </RootLayout>
+            </RootLayout >
           }
         />
-        <Route
+        < Route
           path="/cart"
           element={
-            <RootLayout>
+            < RootLayout >
               <Cart />
-            </RootLayout>
+            </RootLayout >
           }
         />
-        <Route
+        < Route
           path="/booking"
           element={
-            <RootLayout>
+            < RootLayout >
               <Booking />
-            </RootLayout>
+            </RootLayout >
           }
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        < Route path="/register" element={< Register />} />
+        < Route path="/login" element={< Login />} />
 
-        <Route
+        < Route
           path="/shop"
           index
           element={
-            <RootLayout>
+            < RootLayout >
               <ShopLayout>
-                <Shop/>
+                <Shop />
               </ShopLayout>
-            </RootLayout>
-           }
+            </RootLayout >
+          }
         />
-        <Route
+        < Route
           path="/shop/:id"
-           element={
-            <RootLayout>
+          element={
+            < RootLayout >
               <ShopLayout>
                 <ProductDetail />
               </ShopLayout>
-            </RootLayout>
+            </RootLayout >
           }
         />
-      </Routes>
+      </Routes >
       <Toaster />
-    </>
+    </Provider >
   );
 }
 

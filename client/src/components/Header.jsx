@@ -4,11 +4,23 @@ import { useEffect, useState } from 'react'
 import { routes } from '../constants'
 import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom'
 
+import { useDispatch } from 'react-redux';
+
+import { fetchCartItemDetail, setUserId } from '../redux/reducer/cartSlice';
+// import useCard from '../hooks/useCard'
+import CartComponent from './Cart/cart'
+
 const Header = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const [name, setName] = useState('');
-  const [auth, setAuth] = useState(false);
+  const [name, setName] = useState('')
+  const [auth, setAuth] = useState(false)
+  const dispatch = useDispatch();
+  const userId = localStorage.getItem("idUser");
+  useEffect(() => {
+    dispatch(setUserId(userId)); // Đặt userId để sử dụng trong API request
+    dispatch(fetchCartItemDetail(userId)); // Gọi action để lấy số lượng sản phẩm trong giỏ hàng
+  }, [dispatch, userId]);
 
   useEffect(() => {
     Axios.get('http://localhost:8000')
@@ -19,7 +31,6 @@ const Header = () => {
         } else {
           setAuth(false);
         }
-        console.log(res);
       })
       .catch(err => console.log(err));
   }, []);
@@ -31,7 +42,7 @@ const Header = () => {
           if (res.data.idRole === 1) {
             navigate('/admin');
           } else {
-              navigate('/cart');
+            navigate('/cart');
           }
         } else {
           localStorage.setItem('redirectPath', '/cart');
@@ -46,6 +57,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     localStorage.removeItem('idUser');
+    localStorage.removeItem('isLoggedIn')
     try {
       // Check if the user is on the /cart page
       if (location.pathname === '/cart') {
@@ -82,18 +94,21 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-[10px] sm:hidden">
           <button
-            // onClick={handleButtonClick}
             onClick={() => navigate("/booking")}
             className="px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] text-sm font-bold rounded-[5px]">
             BOOK
           </button>
-          <button
-            // onClick={() => navigate("/cart")}
-            onClick={handleButtonClick}
-            className="text-xl px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] font-bold rounded-[5px]"
-          >
-            <BiSolidCartAlt />
-          </button>
+
+          {auth ? (
+            <CartComponent />
+          ) : (
+            <button
+              onClick={handleButtonClick}
+              className="text-xl px-3 py-2 border-[1px] border-[#efa697] text-[#efa697] font-bold rounded-[5px] relative"
+            >
+              <BiSolidCartAlt />
+            </button>
+          )}
           {auth ? (
             <div className="flex items-center gap-[10px]">
               <span className="text-[#efa697] text-sm font-bold">{name}</span>

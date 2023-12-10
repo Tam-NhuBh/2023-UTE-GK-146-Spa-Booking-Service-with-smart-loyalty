@@ -9,55 +9,58 @@ import {
 } from "@mui/material";
 import { HiMinusSmall } from "react-icons/hi2";
 import { FiPlus } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { formatCurrency } from "../uitls/helper/changeCurrency";
+import ProductComponent from "../components/Cart/productList";
+import { fetchCartItemDetail, addToCart, dfetchdetail, rfetchdetail, removeAllProduct } from '../redux/reducer/cartSlice';
 
 function Cart() {
-  const [listCart, setListCart] = useState([
-    {
-      img: "/img/shop/product1.jpg",
-      title: "Body Lotion",
-      price: 170000,
-      quanyity: 1,
-    },
-    {
-      img: "/img/shop/product2.jpg",
-      title: "Organic Bath",
-      price: 180000,
-      quanyity: 1,
-    },
-  ]);
+  const dispatch = useDispatch();
+  const listCart = useSelector((state) => state.cart.cartItems);
+  const userId = localStorage.getItem("idUser")
 
-  const handleIncreaseQuantity = (index) => {
-    const updatedListCart = [...listCart];
-    updatedListCart[index].quanyity += 1;
-    setListCart(updatedListCart);
+  console.log("User that is clicking cart: ", userId);
+
+  useEffect(() => {
+    // Dispatch action fetchCartItemDetail với userId
+    dispatch(fetchCartItemDetail(userId));
+  }, [dispatch, userId]);
+
+  const handleIncreaseQuantity = (idProduct, currentQuantity) => {
+    const increasedQuantity = currentQuantity;
+    console.log("productId", idProduct);
+    dispatch(addToCart({ userId, idProduct, quantity: increasedQuantity }));
+    //window.location.reload();
+
   };
 
-  const handleDecreaseQuantity = (index) => {
-    const updatedListCart = [...listCart];
-    if (updatedListCart[index].quanyity > 1) {
-      updatedListCart[index].quanyity -= 1;
-    }
-    setListCart(updatedListCart);
+  const handleDecreaseQuantity = (idProduct, currentQuantity) => {
+    const decrease = currentQuantity;
+    console.log("productId", idProduct);
+    dispatch(dfetchdetail({ userId, idProduct, quantity: decrease }));
+    //window.location.reload();
   };
 
-  const handleDeleteItem = (index) => {
-    const updatedListCart = [...listCart];
-    updatedListCart.splice(index, 1);
-    setListCart(updatedListCart);
+  const handleDeleteItem = (idProduct) => {
+    console.log("productId", idProduct);
+    dispatch(rfetchdetail({ userId, idProduct }));
+    //window.location.reload();
   };
+  const handleClearAllCart = () => {
+    dispatch(removeAllProduct({ userId }));
+  }
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
     listCart.forEach((item) => {
-      totalPrice += item.price * item.quanyity;
+      totalPrice += item.price * item.quantity;
     });
     return totalPrice;
   };
 
   return (
-    <Container>
+    <Container style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Box py={4}>
         <Typography textAlign={"center"} fontSize={26} fontWeight={"bold"}>
           Shopping Cart
@@ -79,9 +82,11 @@ function Cart() {
             <Grid item xs={2}></Grid>
           </Grid>
           <Divider />
+
           {listCart?.map((cart, index) => (
             <Box key={index}>
               <Grid container>
+
                 <Grid item xs={4}>
                   <Box display={"flex"} gap={1} alignItems={"center"}>
                     <Box
@@ -94,6 +99,8 @@ function Cart() {
                     <Typography variant="subtitle2">{cart.title}</Typography>
                   </Box>
                 </Grid>
+                <ProductComponent />
+
                 <Grid item xs={2}>
                   <Stack justifyContent={"center"} height={"100%"}>
                     <Typography variant="subtitle2">
@@ -101,6 +108,7 @@ function Cart() {
                     </Typography>
                   </Stack>
                 </Grid>
+
                 <Grid item xs={3}>
                   <Stack
                     justifyContent={"center"}
@@ -109,16 +117,18 @@ function Cart() {
                   >
                     <div className="flex items-center border-[1px] border-[#ececec] ">
                       <button
-                        onClick={() => handleDecreaseQuantity(index)}
+                        onClick={() => handleDecreaseQuantity(cart.idProduct, 1)}
                         className="text-black text-[10px] bg-[#f9f9f9] px-2 h-10 border-r-[1px] border-[#ececec] hover:brightness-[85%] transition-all"
                       >
                         <HiMinusSmall />
                       </button>
+
                       <span className="flex items-center justify-center w-10 h-full">
-                        {cart.quanyity}
+                        {cart.quantity}
                       </span>
+
                       <button
-                        onClick={() => handleIncreaseQuantity(index)}
+                        onClick={() => handleIncreaseQuantity(cart.idProduct, 1)}
                         className="text-black text-[10px] bg-[#f9f9f9] px-2 h-10 border-l-[1px] border-[#ececec] hover:brightness-[85%] transition-all"
                       >
                         <FiPlus />
@@ -126,17 +136,19 @@ function Cart() {
                     </div>
                   </Stack>
                 </Grid>
+
                 <Grid item xs={2}>
                   <Stack justifyContent={"center"} height={"100%"}>
                     <Typography variant="subtitle2">
                       {formatCurrency(
-                        Number(cart.price) * Number(cart.quanyity),
+                        Number(cart.price) * Number(cart.quantity),
                         "vi-VN",
                         "VND"
                       )}
                     </Typography>
                   </Stack>
                 </Grid>
+
                 <Grid item xs={1}>
                   <Stack
                     justifyContent={"center"}
@@ -144,7 +156,7 @@ function Cart() {
                     alignItems={"center"}
                   >
                     <Button
-                      onClick={() => handleDeleteItem(index)}
+                      onClick={() => handleDeleteItem(cart.idProduct)}
                       variant="outlined"
                       color="error"
                       size="small"
@@ -153,6 +165,7 @@ function Cart() {
                     </Button>
                   </Stack>
                 </Grid>
+
               </Grid>
               <Divider />
             </Box>
@@ -167,7 +180,8 @@ function Cart() {
           <Button
             variant="outlined"
             color="error"
-            onClick={() => setListCart([])}
+            // onClick={() => setListCart([])}
+            onClick={() => handleClearAllCart()}
           >
             Clear Cart
           </Button>
