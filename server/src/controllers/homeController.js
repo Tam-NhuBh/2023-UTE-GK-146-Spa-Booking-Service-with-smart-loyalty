@@ -1,7 +1,30 @@
+const jwt = require('jsonwebtoken');
+
 class homeController {
-    index(req, res) {
-        res.send("connected to react");
-        console.log("connected to react");
+    verifyUser(req, res, next) {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                return res.json({ Error: "You are not Authenticated" });
+            } else {
+                jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+                    if (err) {
+                        return res.json({ Error: "Token expired or invalid" });
+                    } else {
+                        req.name = decoded.name;
+                        req.idRole = decoded.idRole;
+                        req.idUser = decoded.idUser;
+                        next();
+                    }
+                })
+            }
+        } catch (error) {
+            console.error('Error checking token:', error);
+            return res.json({ Error: "Internal server error" });
+        }
+    }
+    show(req, res) {
+        return res.json({ Status: "Success", name: req.name, idRole: req.idRole, idUser: req.idUser });
     }
 }
 module.exports = new homeController;

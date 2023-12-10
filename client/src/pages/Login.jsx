@@ -1,23 +1,84 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import Validation from '../../../server/src/models/loginValidation'
+import Axios from 'axios'
 
 const Login = () => {
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState({});
+
+  const handleInput = (event) => {
+    setValues(prev => setValues({ ...prev, [event.target.name]: event.target.value }))
+  }
+
+  const navigate = useNavigate();
+
+  Axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    Axios.get('http://localhost:8000')
+      .then(res => {
+        if (res.data.Status === "Success") {
+          const idRole = res.data.role;
+
+          if (idRole === 1) {
+            navigate('/admin');
+          } else {
+            navigate('/');
+          }
+        } else {
+          navigate('/login');
+        }
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  }, [])
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setError(Validation(values));
+    if (error.email === '' && error.password === '') {
+      Axios.post('http://localhost:8000/login', values)
+        .then(res => {
+          if (res.data.Status === "Success") {
+            const idRole = res.data.role;
+
+            if (idRole === 1) {
+              navigate('/admin');
+            } else {
+              navigate('/');
+            }
+          } else if (res.data.passwordError) {
+            alert(res.data.passwordError);
+          } else if (res.data.emailError) {
+            alert(res.data.emailError);
+          }
+        })
+        .catch(err => console.log(err));
+    }
+  };
+
   return (
     <div className="App">
       <div className="auth-form-container">
-        <h2 className="text-2xl font-bold">Login</h2>
-        <form className="login-form">
+        <h2 className="text-2xl font-bold">Đăng nhập</h2>
+        <form className="login-form" onSubmit={handleSubmit}>
           <label className="label" htmlFor="email">
             Email
           </label>
           <input
             className="input"
-            type="email"
             id="email"
             name="email"
             placeholder="youremail@gmail.com"
+            onChange={handleInput}
           />
+          {error.email && <span className='text-danger'>{error.email}</span>}
           <label className="label" htmlFor="password">
-            Password
+            Mật khẩu
           </label>
           <input
             className="input"
@@ -25,14 +86,16 @@ const Login = () => {
             id="password"
             name="password"
             placeholder="********"
+            onChange={handleInput}
           />
+          {error.password && <span className='text-danger'>{error.password}</span>}
           <button className='button' type="submit">Submit</button>
         </form>
 
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          Don't have an account?&nbsp;
+          Bạn chưa có tài khoản?&nbsp;
           <Link to="/register">
-            <button className="link-btn button">Register here </button>
+            <button className="link-btn button">Đăng ký ở đây </button>
           </Link>
         </div>
       </div>

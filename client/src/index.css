@@ -24,8 +24,8 @@ code {
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  color: #0000ff;
-  background-image: linear-gradient(79deg, #87cefa, #add8e6 48%, #00bfff);
+  color: #CC0000;
+  background-image: linear-gradient(79deg, #FFF0F5, #FFF0F5 48%, #FFF0F5);
 }
 
 .auth-form-container,
@@ -58,7 +58,7 @@ code {
 
 .button {
   border: none;
-  background-color: #4169e1;
+  background-color: #FF3366;
   padding: 10px 20px; /* Thay đổi kích thước padding theo mong muốn */
   border-radius: 10px;
   cursor: pointer;
@@ -68,6 +68,6 @@ code {
 
 .link-btn {
   background: none;
-  color: #000080;
+  color: #110000;
   text-decoration: underline;
 }

@@ -73,7 +73,7 @@ const BottomForm = () => {
   return (
     <div className="flex flex-col rounded-[10px] overflow-hidden border-[1px] border-[#F8CBD3]">
       <div className="pt-4 px-5 pb-[6px] bg-[#F5637E]">
-        <span className="text-lg text-white">2. NGÀY / GIỜ / NỘI DUNG MONG MUỐN</span>
+        <span className="text-lg text-white">NGÀY / GIỜ / NỘI DUNG MONG MUỐN</span>
       </div>
       <div className="flex flex-col gap-5 p-5 lg:p-3">
         <div className="flex items-center md:flex-col md:items-start">
@@ -129,7 +129,7 @@ const BottomForm = () => {
           <Label text="Điều trị mong muốn" isRequired />
           <div className="flex flex-wrap mt-1">
             {options.map((option) => (
-            <div key={option.id} className="w-1/4 lg:w-1/2 ssm:w-full">
+              <div key={option.id} className="w-1/4 lg:w-1/2 ssm:w-full">
                 <FormControlLabel
                   value="1"
                   control={<CheckBox />}
