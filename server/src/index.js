@@ -19,7 +19,6 @@ const route = require('./routes/index');
 const port = process.env.port || 8000;
 
 // Register the product controller
-app.get('/api/products', productController.getAllProducts);
 app.use(bodyParser.json());
 app.use(cors({
     origin: 'http://localhost:5173',

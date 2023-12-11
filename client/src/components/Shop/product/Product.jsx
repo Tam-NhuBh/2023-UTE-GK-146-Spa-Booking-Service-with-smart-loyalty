@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import ProductItem from './ProductItem';
+import Axios from 'axios'
 
 function Product() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  Axios.defaults.withCredentials = true;
+
   useEffect(() => {
-    fetch('http://localhost:8000/api/products')
+    Axios.get('http://localhost:8000/api/products')
       .then((response) => {
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error('Network response was not ok');
         }
-        return response.json();
+        return response.data.results; // Access the 'results' key
       })
       .then((data) => {
         setProducts(data);
