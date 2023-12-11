@@ -7,7 +7,6 @@ import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 
 import { fetchCartItemDetail, setUserId } from '../redux/reducer/cartSlice';
-// import useCard from '../hooks/useCard'
 import CartComponent from './Cart/cart'
 
 const Header = () => {
@@ -17,12 +16,11 @@ const Header = () => {
   const [auth, setAuth] = useState(false)
   const dispatch = useDispatch();
   const userId = localStorage.getItem("idUser");
-  useEffect(() => {
-    dispatch(setUserId(userId)); // Đặt userId để sử dụng trong API request
-    dispatch(fetchCartItemDetail(userId)); // Gọi action để lấy số lượng sản phẩm trong giỏ hàng
-  }, [dispatch, userId]);
 
   useEffect(() => {
+    dispatch(setUserId(userId));            // Đặt userId để sử dụng trong API request
+    dispatch(fetchCartItemDetail(userId));  // Gọi action để lấy số lượng sản phẩm trong giỏ hàng
+
     Axios.get('http://localhost:8000')
       .then(res => {
         if (res.data.Status === "Success") {
@@ -33,26 +31,25 @@ const Header = () => {
         }
       })
       .catch(err => console.log(err));
-  }, []);
+    // Redirect to homepage if on the cart page and not authenticated
+    if (location.pathname === '/cart' && !auth) {
+      navigate('/');
+    }
+  }, [dispatch, userId, location.pathname, auth]);
 
-  const handleButtonClick = () => {
-    Axios.get('http://localhost:8000')
-      .then(res => {
-        if (res.data.Status === "Success") {
-          if (res.data.idRole === 1) {
-            navigate('/admin');
-          } else {
-            navigate('/cart');
-          }
-        } else {
-          localStorage.setItem('redirectPath', '/cart');
-          navigate('/login');
-        }
-      })
-      .catch(error => {
-        console.error('Error checking token:', error);
+  const handleButtonClick = async () => {
+    try {
+      const res = await Axios.get(`http://localhost:8000/cart/oncart?userId=${resLogin.data.name}`);
+      if (res.data.Status === "Success") {
+        navigate('/cart');
+      } else {
         navigate('/login');
-      });
+        localStorage.setItem('redirectPath', '/cart');
+      }
+    } catch (error) {
+      console.error('Error checking token:', error);
+      navigate('/login');
+    }
   };
 
   const handleLogout = async () => {
@@ -73,6 +70,7 @@ const Header = () => {
       console.log(error);
     }
   }
+
 
   return (
     <div className="w-full bg-white shadow-md flex justify-center fixed top-0 right-0 left-0 h-[74px] z-20">
