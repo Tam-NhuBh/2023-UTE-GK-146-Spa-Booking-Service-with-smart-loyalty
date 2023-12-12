@@ -1,5 +1,6 @@
+import { useContext } from "react";
+import { SearchContext } from "../SearchContext";
 import { Box, styled } from "@mui/material";
-import { listProductSidebar } from "../../../constants";
 
 const Wrapper = styled(Box)({
   boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.1)",
@@ -23,6 +24,8 @@ const Item = styled("li")({
 });
 
 function ListProduct() {
+  const { filteredProducts } = useContext(SearchContext);
+
   return (
     <Wrapper mt={3}>
       <Box
@@ -34,23 +37,29 @@ function ListProduct() {
       >
         SẢN PHẨM
       </Box>
-      <ListItem>
-        {listProductSidebar?.map((product, index) => (
-          <Item key={index}>
-            <Box component={"img"} src={product.img} width={60} height={60} />
-            <Box>
-              <div>{product.title}</div>
-              <Box
-                display={"flex"}
-                gap={0.2}
-                sx={{ "&:hover": { color: "#efa697" } }}
-              >
-                {product.price} <span style={{ fontSize: "0.85em" }}>₫</span>
+      {filteredProducts.length === 0 ? (
+        <Box p={2} textAlign="center">
+          No item found.
+        </Box>
+      ) : (
+        <ListItem>
+          {filteredProducts.map((product, index) => (
+            <Item key={index}>
+              <Box component={"img"} src={product.img} width={60} height={60} />
+              <Box>
+                <div>{product.nameProduct}</div>
+                <Box
+                  display={"flex"}
+                  gap={0.2}
+                  sx={{ "&:hover": { color: "#efa697" } }}
+                >
+                  {product.price} <span style={{ fontSize: "0.85em" }}>₫</span>
+                </Box>
               </Box>
-            </Box>
-          </Item>
-        ))}
-      </ListItem>
+            </Item>
+          ))}
+        </ListItem>
+      )}
     </Wrapper>
   );
 }

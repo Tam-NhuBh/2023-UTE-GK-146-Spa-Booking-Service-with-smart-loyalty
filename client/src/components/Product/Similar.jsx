@@ -41,7 +41,7 @@ const renderArrows = ({ type, onClick, isEdge }) => {
   )
 }
 
-const Similar = () => {
+const Similar = ({ productData }) => {
   return (
     <div className="flex flex-col my-8">
       <div className="flex justify-center mt-3">
@@ -55,7 +55,7 @@ const Similar = () => {
           
           renderArrow={renderArrows}
         >
-          {products?.map((prod, index) => (
+          {productData?.map((prod, index) => (
             <ProductItem disableShadow {...prod} width={210} key={index} />
           ))}
         </Carousel>

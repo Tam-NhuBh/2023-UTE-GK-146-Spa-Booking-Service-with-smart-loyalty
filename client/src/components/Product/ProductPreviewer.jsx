@@ -7,20 +7,17 @@ import { FaFacebookF } from 'react-icons/fa'
 import { FaTwitter } from 'react-icons/fa'
 import { FaPinterestP } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa'
-import useCard from '../../hooks/useCard'
 import toast from 'react-hot-toast'
 import ImageViewer from '../ImageViewer'
 import { FaExpandArrowsAlt } from 'react-icons/fa'
 
-const ProductPreviewer = ({ product }) => {
+const ProductPreviewer = ({ product }) => { // Use the `product` prop instead of `productData`
   const [quantity, setQuantity] = useState(1)
   const [openPreview, setOpenPreview] = useState(false)
 
-  // TODO: handle logic is here
-  const card = useCard()
-
   const handleAddToCard = () => {
-    card.addProduct(product?.id, quantity)
+    // Add the product to the cart
+    // You can implement the logic here based on your useCard hook
     setQuantity(1)
     toast.success('Đã thêm sản phẩm vào giỏ hảng!')
   }
@@ -31,7 +28,7 @@ const ProductPreviewer = ({ product }) => {
         <div className="relative flex justify-center w-1/2 overflow-hidden md:w-full">
           <img
             src={product?.img}
-            alt={product?.title}
+            alt={product?.nameProduct}
             className="object-contain w-full max-w-[500px]"
           />
           <button
@@ -51,7 +48,7 @@ const ProductPreviewer = ({ product }) => {
               CHƯA PHÂN LOẠI
             </span>
           </div>
-          <h2 className="text-[#555] text-[28px] font-bold mt-[2px]">{product?.title}</h2>
+          <h2 className="text-[#555] text-[28px] font-bold mt-[2px]">{product?.naneProduct}</h2>
           <div className="w-8 h-[3px] bg-black opacity-10 mt-[14px]"></div>
           <span className="text-[#23282d] text-2xl font-bold flex items-center mt-3">
             {product.price}
@@ -59,7 +56,7 @@ const ProductPreviewer = ({ product }) => {
           </span>
           <span
             className="text-[#777] text-base mt-7"
-            dangerouslySetInnerHTML={{ __html: product?.desc1 }}
+            dangerouslySetInnerHTML={{ __html: product?.description }}
           ></span>
           <div className="flex items-center h-10 gap-5 mt-8">
             <div className="flex items-center border-[1px] border-[#ececec]">

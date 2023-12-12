@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-const Description = ({ description }) => {
+const Description = ({ productData }) => {
   return (
     <div className="flex flex-col py-[30px] gap-4 border-[#ececec] border-b-[1px]">
       <div className="flex gap-1 h-[46px]">
@@ -13,12 +13,12 @@ const Description = ({ description }) => {
       </div>
       <div className="pb-5">
         <span
-          dangerouslySetInnerHTML={{ __html: description }}
+          dangerouslySetInnerHTML={{ __html: productData?.desc1 }}
           className="text-[#777] text-base"
         ></span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Description
+export default Description;
