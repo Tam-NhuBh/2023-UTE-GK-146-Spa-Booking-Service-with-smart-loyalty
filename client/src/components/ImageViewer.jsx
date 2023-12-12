@@ -2,7 +2,8 @@
 import Modal from '@mui/material/Modal';
 
 
-const ImageViewer = ({img, isOpen, onClose}) => {
+const ImageViewer = ({ img, isOpen, onClose }) => {
+  // console.log('Image URL:', img); // Log the image URL
   return (
     <Modal open={isOpen} onClose={onClose} className='flex items-center justify-center'>
       <img src={img} alt="image viewer" className='object-contain max-w-[60vw] max-h-[80vh]' />

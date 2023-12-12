@@ -34,12 +34,19 @@ const Price = styled(Box)({
   },
 })
 
+const ProductImage = styled('img')({
+  width: '100%', // Set the width to 100%
+  height: '200px', // Set a fixed height for all images (adjust as needed)
+  objectFit: 'cover', // Ensure the image covers the entire box
+});
+
 // eslint-disable-next-line react/prop-types
 function ProductItem({ img, title, price, width, disableShadow = false, id }) {
   return (
     <Link to={`/shop/${id}`}>
       <Box width={width} sx={{ boxShadow: disableShadow && 'none' }}>
-        <Box component={'img'} src={img} />
+        {/* <Box component={'img'} src={img} /> */}
+        <ProductImage src={img} alt={title} />
         <Box textAlign={'center'} p={1.25}>
           <Title>{title}</Title>
           <Price>
