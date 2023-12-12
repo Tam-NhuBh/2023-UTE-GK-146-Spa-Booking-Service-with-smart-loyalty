@@ -17,5 +17,12 @@ router.delete('/staff/list/:id', adminController.deleteStaff)
 router.get('/staff/:id', adminController.showStaffByID)
 router.put('/staff/edit/:id', adminController.editStaff)
 
+router.get('/product/list', adminController.listProduct)
+router.post('/product/checkProductID', adminController.checkProductID)
+router.post('/product/add', adminController.addProduct)
+router.delete('/product/list/:id', adminController.deleteProduct)
+router.get('/product/:id', adminController.showProductByID)
+router.put('/product/edit/:id', adminController.editProduct)
+
 
 module.exports = router;

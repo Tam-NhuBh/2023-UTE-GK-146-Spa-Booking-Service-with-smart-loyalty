@@ -18,6 +18,8 @@ import StaffPageLayout from "../pages/staff/StaffPageLayout";
 import StaffDefaultPage from "../pages/staff/StaffDefaultPage";
 import StaffRegisterForm from "../pages/staff/StaffRegisterForm";
 import StaffEditForm from "../pages/staff/StaffEditFrom";
+import ProductAddForm from "../pages/product/ProductAddForm";
+import ProductEditForm from "../pages/product/ProductEditform"
 import LoginDefaultPage from "../pages/login/LoginDefaultPage";
 import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -58,30 +60,40 @@ const appRoutes = [
           ),
         },
       },
-    ],
-  },
-  {
-    path: "/admin/order",
-    element: <OrderPageLayout />,
-    state: "order",
-    sidebarProps: {
-      displayText: "Quản lý đơn hàng",
-      icon: <AppsOutlinedIcon />,
-    },
-    child: [
       {
-        path: "/admin/order/list",
-        element: <AlertPage />,
-        state: "order.list",
-        sidebarProps: {
-          displayText: "Danh sách đơn hàng",
-          icon: (
-            <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
-          ),
-        },
+        path: "/admin/product/add",
+        element: <ProductAddForm />,
+        state: "product.add",
+      },
+      {
+        path: "/admin/product/edit/:id",
+        element: <ProductEditForm />,
+        state: "product.edit",
       },
     ],
   },
+  // {
+  //   path: "/admin/order",
+  //   element: <OrderPageLayout />,
+  //   state: "order",
+  //   sidebarProps: {
+  //     displayText: "Quản lý đơn hàng",
+  //     icon: <AppsOutlinedIcon />,
+  //   },
+  //   child: [
+  //     {
+  //       path: "/admin/order/list",
+  //       element: <AlertPage />,
+  //       state: "order.list",
+  //       sidebarProps: {
+  //         displayText: "Danh sách đơn hàng",
+  //         icon: (
+  //           <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
+  //         ),
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: "/admin/customer",
     element: <GuestPageLayout />,

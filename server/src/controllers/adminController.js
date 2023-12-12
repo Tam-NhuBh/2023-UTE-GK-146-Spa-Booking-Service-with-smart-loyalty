@@ -209,12 +209,121 @@ class adminController {
         console.log("Customer ID: ", idUser)
         const sql = `UPDATE user SET fullname = ?, birthday = ?, phone = ?, city = ?, address = ?, gender = ? WHERE idUser = ?`;
         connection.query(sql, [req.body.fullName, req.body.birthDate, req.body.phone,
-            req.body.city, req.body.address, req.body.gender, idUser], (err, result) => {
+        req.body.city, req.body.address, req.body.gender, idUser], (err, result) => {
             console.log("Full Name: ", req.body.fullName);
             console.log("Birth date: ", req.body.birthDate);
             console.log("Phone: ", req.body.phone);
             console.log("City: ", req.body.city);
             console.log("Gender: ", req.body.gender);
+
+            if (err) {
+                console.log(err);
+                return res.json({ Error: "Updating data error in server" });
+            }
+            else return res.json({ Status: "Success" });
+        })
+    }
+    //[GET] List products
+    listProduct(req, res, next) {
+        const sql = `SELECT idProduct, nameProduct, description, price, quantity, brand, img FROM products`;
+        connection.query(sql, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json({ Error: "Loading product error" });
+            } else {
+                return res.json({ Status: "Success", data });
+            }
+        })
+    }
+    //[POST] Check ProductID
+    checkProductID(req, res, next) {
+        console.log("idProduct to check: ", req.body.idProduct);
+        const sql = `SELECT COUNT(*) AS count From products WHERE idProduct = ?`;
+        connection.query(sql, [req.body.idProduct], (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json(({ Error: "Error checking product existence" }))
+            }
+            if (data.some(row => row.count > 0)) {
+                res.json({ productError: "Product already existed" });
+            } else return res.json({ Status: "Success" });
+        })
+    }
+    //[POST] Add Product
+    addProduct(req, res, next) {
+        const sql = `INSERT INTO products (idProduct, nameProduct, description, price, importDate, quantity, brand, status, img) VALUES (?)`;
+        const values = [
+            req.body.idProduct,
+            req.body.nameProduct,
+            req.body.description,
+            req.body.price,
+            req.body.importDate,
+            req.body.quantity,
+            req.body.brand,
+            req.body.status,
+            req.body.img
+        ]
+        connection.query(sql, [values], (err, result) => {
+            console.log("idProduct: ", req.body.idProduct);
+            console.log("nameProduct: ", req.body.nameProduct);
+            console.log('description: ', req.body.description);
+            console.log("price: ", req.body.price);
+            console.log("importDate: ", req.body.importDate);
+            console.log("quantity: ", req.body.quantity);
+            console.log("brand: ", req.body.brand);
+            console.log("img: ", req.body.img);
+            if (err) {
+                console.error('Error inserting product:', err);
+                return res.json({ Error: "Inserting data error in server" });
+            }
+            return res.json({ Status: "Success" });
+        });
+    }
+    //[DELETE] Delete product by admin
+    deleteProduct(req, res, next) {
+        const idProduct = req.params.id;
+        console.log("Product ID: ", idProduct)
+        const sql = `DELETE FROM products WHERE idProduct = ?`;
+        connection.query(sql, idProduct, (err, result) => {
+            if (err) {
+                console.error("Error deleting product:", err);
+                return res.json({ Status: 'Error', message: 'Internal Server Error' });
+            } else {
+                if (result.affectedRows > 0) {
+                    return res.json({ Status: 'Success', message: 'Product deleted successfully' });
+                } else {
+                    res.json({ Error: 'Product not found' });
+                }
+            }
+        });
+    }
+    //[GET] Get product by ID
+    showProductByID(req, res, next) {
+        const idProduct = req.params.id;
+        const sql = `SELECT * FROM products WHERE idProduct = ?`;
+        connection.query(sql, idProduct, (err, Result) => {
+            if (err) {
+                console.error("Error selecting product:", err);
+                return res.json({ Status: 'Error', message: 'Internal Server Error' });
+            } else {
+                return res.json({ Status: "Success", Result });
+            }
+        });
+    }
+    //[PUT] Product edit by admin
+    editProduct(req, res, next) {
+        const idProduct = req.params.id;
+        console.log("product ID: ", idProduct)
+        const sql = `UPDATE products SET nameProduct = ?, description = ?, price = ?, quantity = ?, status = ?, img = ? WHERE idProduct = ?`;
+        connection.query(sql, [req.body.nameProduct, req.body.description, req.body.price,
+            req.body.quantity, req.body.status, req.body.img, idProduct], (err, result) => {
+            console.log("idProduct: ", req.body.idProduct);
+            console.log("nameProduct: ", req.body.nameProduct);
+            console.log('description: ', req.body.description);
+            console.log("price: ", req.body.price);
+            console.log("quantity: ", req.body.quantity);
+            console.log("brand: ", req.body.brand);
+            console.log("img: ", req.body.img);
 
             if (err) {
                 console.log(err);
