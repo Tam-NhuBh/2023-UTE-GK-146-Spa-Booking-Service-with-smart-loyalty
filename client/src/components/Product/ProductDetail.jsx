@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import ProductPreviewer from "./ProductPreviewer";
+import Description from "./Description";// Import Description and Similar components here
+import Similar from "./Similar";
 
 const ProductDetail = () => {
-  const { id } = useParams(); // Access the `id` parameter from the URL
-  const [productData, setProductData] = useState(null);
+  const { id } = useParams();
+  const [products, setProductData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -36,24 +39,23 @@ const ProductDetail = () => {
   }, [id]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Display a loading indicator
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display error message if fetching fails
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div className="pt-8 pl-[30px] flex-1">
       <div className="border-[#ececec] border-l-[1px] w-full flex flex-col px-[30px]">
-        {/* Render components based on fetched product data */}
-        {/* Replace ProductPreviewer, Description, and Similar components with respective data */}
-        <h2>{productData?.title}</h2>
-        {/* Display other product details */}
-        <img src={productData?.img} alt={productData?.title} />
-        <p>Price: {productData?.price}</p>
-        {/* Render other details based on productData */}
-      </div>
+        <ProductPreviewer  products={products} />
+        {/* Use the Description component here */}
+        <Description products={products.description} />
+        {/* Use the Similar component here */}
+        <Similar products={products} />
+        
+        </div>
     </div>
   );
 };

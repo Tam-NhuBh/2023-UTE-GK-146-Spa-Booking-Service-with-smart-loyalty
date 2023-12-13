@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-
+//ProductPreviewer.
 import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { HiMinusSmall } from 'react-icons/hi2'
@@ -8,12 +8,17 @@ import { FaTwitter } from 'react-icons/fa'
 import { FaPinterestP } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa'
 import toast from 'react-hot-toast'
-import ImageViewer from '../ImageViewer'
+import View from '../ImageViewer'
 import { FaExpandArrowsAlt } from 'react-icons/fa'
 
-const ProductPreviewer = ({ product }) => { // Use the `product` prop instead of `productData`
+const ProductPreviewer = ({ products }) => { // Use the `product` prop instead of `productData`
   const [quantity, setQuantity] = useState(1)
   const [openPreview, setOpenPreview] = useState(false)
+
+
+  const handleImageClick = () => {
+    setOpenPreview(true);
+  };
 
   const handleAddToCard = () => {
     // Add the product to the cart
@@ -27,9 +32,10 @@ const ProductPreviewer = ({ product }) => { // Use the `product` prop instead of
       <div className="flex h-[500px] md:h-fit pb-[30px] border-[#ececec] border-b-[1px] md:flex-col">
         <div className="relative flex justify-center w-1/2 overflow-hidden md:w-full">
           <img
-            src={product?.img}
-            alt={product?.nameProduct}
-            className="object-contain w-full max-w-[500px]"
+            src={products?.img}
+            alt={products?.nameProduct}
+            className="object-contain w-full max-w-[300px] h-full max-h-[300px] cursor-pointer hover:pointer"
+            onClick={handleImageClick}
           />
           <button
             onClick={() => setOpenPreview(true)}
@@ -48,15 +54,15 @@ const ProductPreviewer = ({ product }) => { // Use the `product` prop instead of
               CHƯA PHÂN LOẠI
             </span>
           </div>
-          <h2 className="text-[#555] text-[28px] font-bold mt-[2px]">{product?.naneProduct}</h2>
+          <h2 className="text-[#555] text-[28px] font-bold mt-[2px]">{products?.naneProduct}</h2>
           <div className="w-8 h-[3px] bg-black opacity-10 mt-[14px]"></div>
           <span className="text-[#23282d] text-2xl font-bold flex items-center mt-3">
-            {product.price}
+            {products?.price}
             <span className="text-[0.6em] underline">đ</span>
           </span>
           <span
             className="text-[#777] text-base mt-7"
-            dangerouslySetInnerHTML={{ __html: product?.description }}
+            dangerouslySetInnerHTML={{ __html: products?.description }}
           ></span>
           <div className="flex items-center h-10 gap-5 mt-8">
             <div className="flex items-center border-[1px] border-[#ececec]">
@@ -108,8 +114,9 @@ const ProductPreviewer = ({ product }) => { // Use the `product` prop instead of
           </div>
         </div>
       </div>
-      <ImageViewer
-        img={product?.img}
+      <View
+        visibility="invisible"
+        img={products?.img}
         isOpen={openPreview}
         onClose={() => setOpenPreview(false)}
       />

@@ -15,6 +15,28 @@ const getAllProducts = (req, res) => {
   });
 };
 
+const getProductById = (req, res) => {
+  const { id } = req.params;
+  connection.query(
+    'SELECT * FROM products WHERE idProduct = ?',
+    [id],
+    (error, results) => {
+      if (error) {
+        res.status(500).json({ error: error.message });
+      } else if (results.length === 0) {
+        res.status(404).json({ error: 'Product not found' });
+      } else {
+        const product = results[0];
+        const updatedProduct = {
+          ...product,
+          category: product.brand,
+        };
+        res.status(200).json(updatedProduct);
+      }
+    }
+  );
+};
+
 const getProductsByCategory = (req, res) => {
   const { category } = req.query;
   connection.query(
@@ -46,6 +68,7 @@ const getAllCategories = (req, res) => {
 
 module.exports = {
   getAllProducts,
+  getProductById,
   getProductsByCategory,
   getAllCategories,
 };

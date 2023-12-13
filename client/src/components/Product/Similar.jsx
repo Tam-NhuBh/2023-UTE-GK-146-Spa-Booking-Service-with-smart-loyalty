@@ -1,8 +1,7 @@
-import { products } from '../../constants'
-import ProductItem from '../Shop/product/ProductItem'
-import Carousel from 'react-elastic-carousel'
-import { FaCaretRight } from 'react-icons/fa'
-import { FaCaretLeft } from 'react-icons/fa6'
+import PropTypes from 'prop-types';
+import { FaCaretRight, FaCaretLeft } from 'react-icons/fa';
+import Carousel from 'react-elastic-carousel';
+import ProductItem from '../Shop/product/ProductItem';
 
 const breakPoints = [
   {
@@ -25,11 +24,9 @@ const breakPoints = [
     itemsToShow: 4,
     itemsToScroll: 1,
   },
-]
+];
 
 const renderArrows = ({ type, onClick, isEdge }) => {
-  console.log(type)
-
   return (
     <button
       onClick={onClick}
@@ -38,10 +35,10 @@ const renderArrows = ({ type, onClick, isEdge }) => {
     >
       {type === 'PREV' ? <FaCaretLeft /> : <FaCaretRight />}
     </button>
-  )
-}
+  );
+};
 
-const Similar = ({ productData }) => {
+const Similar = ({ products }) => {
   return (
     <div className="flex flex-col my-8">
       <div className="flex justify-center mt-3">
@@ -52,16 +49,21 @@ const Similar = ({ productData }) => {
           breakPoints={breakPoints}
           pagination={false}
           enableAutoPlay
-          
           renderArrow={renderArrows}
         >
-          {productData?.map((prod, index) => (
-            <ProductItem disableShadow {...prod} width={210} key={index} />
-          ))}
+          <ProductItem disableShadow {...products} width={210} />
         </Carousel>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Similar
+Similar.propTypes = {
+  product: PropTypes.shape({
+    // Modify the property types according to your actual data structure
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    // Add more properties as needed
+  }).isRequired,
+};
+export default Similar;

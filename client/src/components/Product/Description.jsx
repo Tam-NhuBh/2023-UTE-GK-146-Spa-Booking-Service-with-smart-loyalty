@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
+//Descript.jsx
 
-const Description = ({ productData }) => {
+const Description = ({ products }) => {
   return (
     <div className="flex flex-col py-[30px] gap-4 border-[#ececec] border-b-[1px]">
       <div className="flex gap-1 h-[46px]">
@@ -13,7 +14,7 @@ const Description = ({ productData }) => {
       </div>
       <div className="pb-5">
         <span
-          dangerouslySetInnerHTML={{ __html: productData?.desc1 }}
+          dangerouslySetInnerHTML={{ __html: products?.description }}
           className="text-[#777] text-base"
         ></span>
       </div>

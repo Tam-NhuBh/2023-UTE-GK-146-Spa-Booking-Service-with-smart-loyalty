@@ -1,7 +1,9 @@
 import { useEffect, useState, useContext } from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Select, MenuItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import ProductItem from "./ProductItem";
 import { SearchContext } from "../SearchContext";
+import { sortProductsByPrice } from "../utils/sortUtils";
 
 function Product() {
   const { searchTerm } = useContext(SearchContext);
@@ -9,6 +11,9 @@ function Product() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("asc"); // Added state for sorting order
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetch("http://localhost:8000/api/products")
@@ -20,38 +25,61 @@ function Product() {
       })
       .then((data) => {
         setProducts(data);
-        setIsLoading(false); // Set loading to false when data is fetched
+        setIsLoading(false);
       })
       .catch((error) => {
         setError(error.message || "Error fetching data");
-        setIsLoading(false); // Set loading to false on error
+        setIsLoading(false);
       });
   }, []);
 
   useEffect(() => {
-    setFilteredProducts(
-      products.filter((product) =>
-        product.nameProduct.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    const filtered = products.filter((product) =>
+      product.nameProduct.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [products, searchTerm]);
+    const sortedProducts = sortProductsByPrice(filtered, sortBy);
+    setFilteredProducts(sortedProducts);
+  }, [products, searchTerm, sortBy]);
 
+  const navigateToProductDetail = (id) => {
+    navigate(`/shop/${id}`);
+  };
 
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+  };
 
-  const handleProductClick = (id) => {
-  
-    history.push(`/product/${id}`);
-  }
   if (isLoading) {
-    return <div>Loading...</div>; // Display a loading indicator
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display error message if fetching fails
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div>
+      <Box mb={2}>
+        <Select
+          value={sortBy}
+          onChange={handleSortChange}
+          style={{
+            outline: "none",
+            boxShadow: "inset 0 -1.4em 1em 0 rgba(0,0,0,0.02)",
+            background: "#fff",
+            border: "0px solid #ddd",
+            borderRadius: "0px",
+            paddingRight: "1.4em",
+            color: "#333",
+            fontSize: "14px",
+            height: "40px",
+          }}
+        >
+          <MenuItem value="asc">Price: Low to High</MenuItem>
+          <MenuItem value="desc">Price: High to Low</MenuItem>
+        </Select>
+      </Box>
+
       {filteredProducts.length === 0 ? (
         <Box textAlign="center" mt={3}>
           No item found.
@@ -61,10 +89,9 @@ function Product() {
           {filteredProducts.map((product) => (
             <Grid item xs={6} sm={4} md={4} key={product.idProduct}>
               <div
-                onClick={() => handleProductClick(product.idProduct)}
+                onClick={() => navigateToProductDetail(product.idProduct)}
                 style={{ cursor: "pointer" }}
               >
-                {/* Wrap each product item with a div and attach the click event handler */}
                 <ProductItem
                   img={product.img}
                   price={product.price}
