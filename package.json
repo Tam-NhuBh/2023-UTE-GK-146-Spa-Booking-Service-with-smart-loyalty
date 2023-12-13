@@ -1,15 +1,23 @@
 {
-  "name": "2023-ute-gk-146-spa-booking-service-with-smart-loyalty",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "atomyv21-1111",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "server": "npm start --prefix server",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@babel/plugin-transform-private-property-in-object": "^7.22.11"
+    "axios": "^1.6.2",
+    "bootstrap": "^4.2.1",
+    "concurrently": "^8.2.2",
+    "mysql2": "^3.6.5",
+    "react-redux": "^9.0.2",
+    "redux": "^5.0.0",
+    "redux-thunk": "^3.1.0"
   }
 }

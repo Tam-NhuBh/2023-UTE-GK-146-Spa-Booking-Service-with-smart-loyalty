@@ -1,0 +1,21 @@
+.date-field-component .MuiFormControl-root {
+  width: 100%;
+}
+.date-field-component .MuiFormControl-root .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl {
+  border-radius: 10px !important;
+}
+.date-field-component .MuiFormControl-root .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl .MuiInputBase-input.MuiOutlinedInput-input {
+  padding: 14px 20px !important;
+  text-transform: lowercase;
+  width: 100%;
+  font-family: 'Times New Roman', Times, serif !important;
+}
+.date-field-component .MuiFormControl-root .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl .MuiInputBase-input.MuiOutlinedInput-input::placeholder {
+  color: #bababa !important;
+  opacity: 1 !important;
+  text-transform: lowercase;
+  font-family: 'Times New Roman', Times, serif !important;
+}
+.date-field-component .MuiFormControl-root .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl .MuiOutlinedInput-notchedOutline {
+  border: #d2d2d2 solid 1px !important;
+}
