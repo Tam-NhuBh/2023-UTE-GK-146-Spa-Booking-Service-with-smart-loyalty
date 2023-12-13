@@ -13,7 +13,7 @@ const Form = () => {
           <div className="flex flex-col gap-10 mt-[60px]">
             {/* <TopForm /> */}
             <BottomForm />
-            <SubmitArea />
+            {/* <SubmitArea /> */}
           </div>
         </div>
       </div>

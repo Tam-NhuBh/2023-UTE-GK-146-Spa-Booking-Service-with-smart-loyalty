@@ -15,7 +15,8 @@ import Axios from 'axios';
 import { useDispatch } from 'react-redux';
 import useCard from '../../hooks/useCard';
 import { addToCart } from '../../redux/reducer/cartSlice';
-const ProductPreviewer = ({ product }) => {
+
+const ProductPreviewer = ({ products }) => {
   const [quantity, setQuantity] = useState(1)
   const [openPreview, setOpenPreview] = useState(false)
   const navigate = useNavigate()
@@ -23,6 +24,11 @@ const ProductPreviewer = ({ product }) => {
   //handle logic is here
   const card = useCard()
   const dispatch = useDispatch();
+
+  const handleImageClick = () => {
+    setOpenPreview(true);
+  };
+
   const handleAddToCard = (idProduct, quantity) => {
     Axios.get('http://localhost:8000')
       .then(res => {
@@ -45,9 +51,11 @@ const ProductPreviewer = ({ product }) => {
       <div className="flex h-[500px] md:h-fit pb-[30px] border-[#ececec] border-b-[1px] md:flex-col">
         <div className="relative flex justify-center w-1/2 overflow-hidden md:w-full">
           <img
-            src={product?.img}
-            alt={product?.title}
+            src={products?.img}
+            alt={products?.nameProduct}
             className="object-contain w-full max-w-[500px]"
+            // className="object-cover w-full h-[500px] md:h-full"
+            onClick={handleImageClick}
           />
 
           {/*nút xem ảnh chi tiết*/}
@@ -72,17 +80,17 @@ const ProductPreviewer = ({ product }) => {
 
 
           {/*Gía sản phẩm*/}
-          <h2 className="text-[#555] text-[28px] font-bold mt-[2px]">{product?.title}</h2>
+          <h2 className="text-[#555] text-[28px] font-bold mt-[2px]">{products?.title}</h2>
           <div className="w-8 h-[3px] bg-black opacity-10 mt-[14px]"></div>
           <span className="text-[#23282d] text-2xl font-bold flex items-center mt-3">
-            {product.price}
+            {products?.price}
             <span className="text-[0.6em] underline">đ</span>
           </span>
 
           {/*xử lý nhận desc từ db*/}
           <span
             className="text-[#777] text-base mt-7"
-            dangerouslySetInnerHTML={{ __html: product?.desc1 }}
+            dangerouslySetInnerHTML={{ __html: products?.description }}
           ></span>
 
           {/*Nút xử lý mua sắm*/}
@@ -147,7 +155,8 @@ const ProductPreviewer = ({ product }) => {
 
       {/*Nút zoom img sp*/}
       <ImageViewer
-        img={product?.img}
+        visibility="invisible"
+        img={products?.img}
         isOpen={openPreview}
         onClose={() => setOpenPreview(false)}
       />
