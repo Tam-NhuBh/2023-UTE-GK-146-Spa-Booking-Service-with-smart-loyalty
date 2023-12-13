@@ -9,6 +9,7 @@ import { sortProductsByPrice } from "../utils/sortUtils";
 function Product() {
   const { searchTerm } = useContext(SearchContext);
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState("asc"); // Added state for sorting order

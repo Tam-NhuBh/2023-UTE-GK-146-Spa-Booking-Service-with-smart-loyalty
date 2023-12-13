@@ -14,7 +14,7 @@ export const SearchProvider = ({ children }) => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/products");
-        setProducts(response.data);
+        setProducts(response.data.results);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -24,6 +24,7 @@ export const SearchProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    console.log("Products:", products); // Log products to see its value and type
     const filtered = products.filter((product) =>
       product.nameProduct.toLowerCase().includes(searchTerm.toLowerCase())
     );

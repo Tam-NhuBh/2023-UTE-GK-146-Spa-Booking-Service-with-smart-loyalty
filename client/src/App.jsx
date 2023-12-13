@@ -20,6 +20,7 @@ import { routes } from "./routes";
 import { Provider } from 'react-redux';
 import store from './redux/store/cart';
 import NotFound from "./pages/NotFound"
+import { SearchProvider } from "./components/Shop/SearchContext.jsx"; // Import the SearchProvider
 
 const AdminRoute = ({ children }) => {
   const token = document.cookie
@@ -86,108 +87,113 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <NotFound />
-          }
-        >
-        </Route>
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <MainLayout />
-            </AdminRoute>
-          }
-        >
-          {routes}
-        </Route>
-        <Route
-          path="/"
-          element={
-            <RootLayout>
-              <Home />
-            </RootLayout>
-          }
-        />
-        <Route
-          path="/service"
-          element={
-            < RootLayout >
-              <Service />
-            </RootLayout>
-          }
-        />
-        <Route
-          path="/introduce"
-          element={
-            < RootLayout >
-              <Introduce />
-            </RootLayout>
-          }
-        />
-        < Route
-          path="/information"
-          element={
-            < RootLayout >
-              <Information />
-            </RootLayout >
-          }
-        />
-        < Route
-          path="/contact"
-          element={
-            < RootLayout >
-              <Contact />
-            </RootLayout >
-          }
-        />
-        < Route
-          path="/cart"
-          element={
-            < RootLayout >
-              <Cart />
-            </RootLayout >
-          }
-        />
-        < Route
-          path="/booking"
-          element={
-            < RootLayout >
-              <Booking />
-            </RootLayout >
-          }
-        />
-        < Route path="/register" element={< Register />} />
-        < Route path="/login" element={< Login />} />
+    // <Provider store={store}>
+    <SearchProvider> {/* Wrap the entire app with the SearchProvider */}
+      <>
+        <Provider store={store}>
+          <Routes>
+            <Route
+              path="/*"
+              element={
+                <NotFound />
+              }
+            >
+            </Route>
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <MainLayout />
+                </AdminRoute>
+              }
+            >
+              {routes}
+            </Route>
+            <Route
+              path="/"
+              element={
+                <RootLayout>
+                  <Home />
+                </RootLayout>
+              }
+            />
+            <Route
+              path="/service"
+              element={
+                < RootLayout >
+                  <Service />
+                </RootLayout>
+              }
+            />
+            <Route
+              path="/introduce"
+              element={
+                < RootLayout >
+                  <Introduce />
+                </RootLayout>
+              }
+            />
+            < Route
+              path="/information"
+              element={
+                < RootLayout >
+                  <Information />
+                </RootLayout >
+              }
+            />
+            < Route
+              path="/contact"
+              element={
+                < RootLayout >
+                  <Contact />
+                </RootLayout >
+              }
+            />
+            < Route
+              path="/cart"
+              element={
+                < RootLayout >
+                  <Cart />
+                </RootLayout >
+              }
+            />
+            < Route
+              path="/booking"
+              element={
+                < RootLayout >
+                  <Booking />
+                </RootLayout >
+              }
+            />
+            < Route path="/register" element={< Register />} />
+            < Route path="/login" element={< Login />} />
 
-        < Route
-          path="/shop"
-          index
-          element={
-            < RootLayout >
-              <ShopLayout>
-                <Shop />
-              </ShopLayout>
-            </RootLayout >
-          }
-        />
-        < Route
-          path="/shop/:id"
-          element={
-            < RootLayout >
-              <ShopLayout>
-                <ProductDetail />
-              </ShopLayout>
-            </RootLayout >
-          }
-        />
-      </Routes >
-      <Toaster />
-    </Provider >
+            < Route
+              path="/shop"
+              index
+              element={
+                < RootLayout >
+                  <ShopLayout>
+                    <Shop />
+                  </ShopLayout>
+                </RootLayout >
+              }
+            />
+            < Route
+              path="/shop/:id"
+              element={
+                < RootLayout >
+                  <ShopLayout>
+                    <ProductDetail />
+                  </ShopLayout>
+                </RootLayout >
+              }
+            />
+          </Routes >
+          <Toaster />
+        </Provider>
+      </>
+    </SearchProvider>
   );
 }
 
