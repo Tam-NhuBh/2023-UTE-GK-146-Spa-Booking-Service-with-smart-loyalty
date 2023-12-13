@@ -28,13 +28,14 @@ class bookingController {
     }
     //[POST] Submit Booking
     submitBooking(req, res, next) {
-        const idServiceBooking = uuidv4().substring(0, 8) + 'SB';
-        const sql = `INSERT INTO servicebooking (idServiceBooking, idUser, idEmployee, idService) VALUES (?)`;
+        const idServiceBooking = uuidv4().substring(0, 9) + 'B';
+        const sql = `INSERT INTO servicebooking (idServiceBooking, idUser, idEmployee, idService, startDate) VALUES (?)`;
         const values = [
             idServiceBooking,
             req.body.idUser,
             req.body.idEmployee,
-            req.body.idService
+            req.body.idService,
+            req.body.startDate
         ]
         connection.query(sql, [values], (err, result) => {
             console.log("id Service Booking: ", idServiceBooking);

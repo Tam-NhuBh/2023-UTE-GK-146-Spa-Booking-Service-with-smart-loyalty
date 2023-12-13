@@ -10,18 +10,31 @@ import { useEffect, useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { HiOutlineArrowRight } from 'react-icons/hi'
 import Axios from 'axios'
+import { validateBookingForm } from '../../../../../server/src/models/bookingValidation'; // Import the validation function
+import { useNavigate } from 'react-router-dom'
 
 const timestampList = [
   '09:00',
+  '09:30',
   '10:00',
+  '10:30',
   '11:00',
+  '11:30',
   '12:00',
+  '12:30',
   '13:00',
+  '13:30',
   '14:00',
+  '14:30',
   '15:00',
+  '15:30',
   '16:00',
+  '16:30',
   '17:00',
+  '17:30',
   '18:00',
+  '18:30',
+  '19:00',
 ]
 
 const BottomForm = () => {
@@ -36,9 +49,25 @@ const BottomForm = () => {
   const [staffOptions, setStaffOptions] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [selectedStaffId, setSelectedStaffId] = useState('');
-
+  const [formErrors, setFormErrors] = useState({});
 
   const idUser = localStorage.getItem("idUser");
+
+  useEffect(() => {
+    // Retrieve stored form data on component mount
+    const storedFormData = JSON.parse(localStorage.getItem('bookingFormData'));
+
+    if (storedFormData) {
+      // Populate the form with stored data
+      setSelectedClinic(storedFormData.selectedClinic || '');
+      setSelectedDate(storedFormData.selectedDate || '');
+      setTimestamp(storedFormData.timestamp || '');
+      setSelectedService(storedFormData.selectedService || '');
+      setSelectedStaff(storedFormData.selectedStaff || '');
+      setSelectedSendMail(storedFormData.selectedSendMail || '');
+      setAddition(storedFormData.addition || '');
+    }
+  }, []);
 
   Axios.defaults.withCredentials = true;
 
@@ -84,23 +113,45 @@ const BottomForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Prepare data for validation
+    const formData = {
+      selectedClinic,
+      selectedDate,
+      timestamp,
+      selectedService,
+      selectedStaff,
+      selectedSendMail,
+    };
+    // Validate the form
+    const errors = validateBookingForm(formData);
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      console.log('Form validation failed.');
+      return;
+    }
+
+    const dateTime = `${selectedDate} ${timestamp}`;
+
     // Here, you can add the logic to handle the form submission
     console.log('Form submitted!');
     console.log('Selected Service ID:', selectedServiceId);
-    console.log('Selected Employee ID:', selectedStaff);
+    console.log('Selected Employee ID:', selectedStaffId);
     console.log('Selected User ID:', idUser);
     console.log("other info:", selectedClinic, selectedSendMail, timestamp, selectedDate, addition);
+
     try {
       const res = await Axios.post('http://localhost:8000/booking/submitBooking', {
         idUser: idUser,
         idEmployee: selectedStaffId,
-        idService: selectedServiceId
+        idService: selectedServiceId,
+        startDate: dateTime
       })
       if (res.data.Status === "Success") {
         console.log("Booking Successful");
       }
     } catch (error) {
-
+      console.error('Error submitting form:', error);
     }
   };
 
@@ -122,6 +173,9 @@ const BottomForm = () => {
                 control={<Radio />}
                 label="Lý Thường Kiệt"
               />
+              {formErrors.selectedClinic && (
+                <div className="text-red-500">{formErrors.selectedClinic}</div>
+              )}
             </div>
             <div className="flex flex-col gap-3">
               <Label text="Thời gian đặt lịch" isRequired />
@@ -136,12 +190,18 @@ const BottomForm = () => {
                       min: new Date().toISOString().split('T')[0],
                     }}
                   />
+                  {formErrors.selectedDate && (
+                    <div className="text-red-500">{formErrors.selectedDate}</div>
+                  )}
                   <DropMenu
                     onChange={(e) => setTimestamp(e.target.value)}
                     value={timestamp}
                     options={timestampList}
                     label="Khung giờ phục vụ"
                   />
+                  {formErrors.timestamp && (
+                    <div className="text-red-500">{formErrors.timestamp}</div>
+                  )}
                 </div>
               </div>
               <ul className="flex flex-col text-[#707070] text-sm list-disc px-3">
@@ -167,6 +227,9 @@ const BottomForm = () => {
                   })).map((option) => option.label)}
                   label="Chọn dịch vụ"
                 />
+                {formErrors.selectedService && (
+                  <div className="text-red-500">{formErrors.selectedService}</div>
+                )}
               </div>
             </div>
 
@@ -194,6 +257,9 @@ const BottomForm = () => {
                   })).map((option) => option.label)}
                   label="Chọn KTV"
                 />
+                {formErrors.selectedStaff && (
+                  <div className="text-red-500">{formErrors.selectedStaff}</div>
+                )}
               </div>
             </div>
 

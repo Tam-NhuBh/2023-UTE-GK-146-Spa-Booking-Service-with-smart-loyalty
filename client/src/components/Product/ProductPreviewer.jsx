@@ -83,7 +83,7 @@ const ProductPreviewer = ({ products }) => {
           <h2 className="text-[#555] text-[28px] font-bold mt-[2px]">{products?.title}</h2>
           <div className="w-8 h-[3px] bg-black opacity-10 mt-[14px]"></div>
           <span className="text-[#23282d] text-2xl font-bold flex items-center mt-3">
-            {products?.price}
+            {products?.price.toLocaleString('vi-VN')}
             <span className="text-[0.6em] underline">đ</span>
           </span>
 
