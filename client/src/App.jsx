@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Shop from "./pages/Shop";
 import Booking from './pages/Booking'
+import BookingConfirm from './pages/BookingConfirm.jsx'
 import Cart from "./pages/Cart";
 import ShopLayout from "./layouts/ShopLayout";
 import ProductDetail from "./components/Product/ProductDetail";
@@ -165,6 +166,13 @@ function App() {
                 </RootLayout >
               }
             />
+            <Route
+              path="/booking/confirm/:id"
+              element={
+                <BookingConfirm />
+              }
+            >
+            </Route>
             < Route path="/register" element={< Register />} />
             < Route path="/login" element={< Login />} />
 

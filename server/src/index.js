@@ -3,7 +3,6 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const productController = require('./controllers/productController'); // Import your productController module
 
 
 const { connection } = require('./config/db');
@@ -25,16 +24,6 @@ app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "HEAD"],
     credentials: true,
 }));
-// app.use(session({
-//     secret: 'secret',
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         secure: false,
-//         httpOnly: true,
-//         maxAge: null
-//     }
-// }))
 
 app.use(cookieParser());
 

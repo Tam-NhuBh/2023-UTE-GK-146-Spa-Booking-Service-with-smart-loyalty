@@ -12,6 +12,8 @@ import { HiOutlineArrowRight } from 'react-icons/hi'
 import Axios from 'axios'
 import { validateBookingForm } from '../../../../../server/src/models/bookingValidation'; // Import the validation function
 import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid';
+
 
 const timestampList = [
   '09:00',
@@ -50,24 +52,11 @@ const BottomForm = () => {
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [selectedStaffId, setSelectedStaffId] = useState('');
   const [formErrors, setFormErrors] = useState({});
+  const bookingId = uuidv4().substring(0, 9) + 'B';
+
+  const navigate = useNavigate();
 
   const idUser = localStorage.getItem("idUser");
-
-  useEffect(() => {
-    // Retrieve stored form data on component mount
-    const storedFormData = JSON.parse(localStorage.getItem('bookingFormData'));
-
-    if (storedFormData) {
-      // Populate the form with stored data
-      setSelectedClinic(storedFormData.selectedClinic || '');
-      setSelectedDate(storedFormData.selectedDate || '');
-      setTimestamp(storedFormData.timestamp || '');
-      setSelectedService(storedFormData.selectedService || '');
-      setSelectedStaff(storedFormData.selectedStaff || '');
-      setSelectedSendMail(storedFormData.selectedSendMail || '');
-      setAddition(storedFormData.addition || '');
-    }
-  }, []);
 
   Axios.defaults.withCredentials = true;
 
@@ -101,6 +90,8 @@ const BottomForm = () => {
     if (selectedServiceObject) {
       setSelectedServiceId(selectedServiceObject.idService);
     }
+    // Store the service price in localStorage
+    localStorage.setItem('selectedServicePrice', selectedServiceObject.price.toLocaleString('vi-VN'));
   };
 
   const handleStaffSelect = (value) => {
@@ -125,34 +116,38 @@ const BottomForm = () => {
     // Validate the form
     const errors = validateBookingForm(formData);
     setFormErrors(errors);
+    const dateTime = `${selectedDate} ${timestamp}`;
+
+
+    const selectedChoices = {
+      bookingId,
+      selectedClinic,
+      selectedDate,
+      timestamp,
+      selectedService,
+      selectedStaff,
+      selectedSendMail,
+      selectedServiceId,
+      selectedStaffId,
+      addition,
+      dateTime
+    };
+    localStorage.setItem('bookingChoices', JSON.stringify(selectedChoices));
 
     if (Object.keys(errors).length > 0) {
-      console.log('Form validation failed.');
+      alert('Hãy điền đầy đủ thông tin');
       return;
     }
 
-    const dateTime = `${selectedDate} ${timestamp}`;
-
     // Here, you can add the logic to handle the form submission
     console.log('Form submitted!');
+    console.log('Booking ID:', bookingId);
     console.log('Selected Service ID:', selectedServiceId);
     console.log('Selected Employee ID:', selectedStaffId);
     console.log('Selected User ID:', idUser);
     console.log("other info:", selectedClinic, selectedSendMail, timestamp, selectedDate, addition);
 
-    try {
-      const res = await Axios.post('http://localhost:8000/booking/submitBooking', {
-        idUser: idUser,
-        idEmployee: selectedStaffId,
-        idService: selectedServiceId,
-        startDate: dateTime
-      })
-      if (res.data.Status === "Success") {
-        console.log("Booking Successful");
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    navigate(`/booking/confirm/${bookingId}`);
   };
 
   return (

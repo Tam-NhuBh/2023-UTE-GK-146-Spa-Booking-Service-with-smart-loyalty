@@ -121,7 +121,7 @@ const ProductPreviewer = ({ products }) => {
             {/*Nút add vào cart*/}
 
             <button
-              onClick={() => handleAddToCard("123", quantity)}
+              onClick={() => handleAddToCard(products.idProduct, quantity)}
               className="uppercase text-white text-base flex justify-center items-center bg-[#efa697] px-[18px] h-full hover:brightness-90 transition-all"
             >
               Thêm vào giỏ hàng

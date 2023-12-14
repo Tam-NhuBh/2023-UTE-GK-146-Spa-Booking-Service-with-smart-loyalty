@@ -28,17 +28,18 @@ class bookingController {
     }
     //[POST] Submit Booking
     submitBooking(req, res, next) {
-        const idServiceBooking = uuidv4().substring(0, 9) + 'B';
+        // const idServiceBooking = uuidv4().substring(0, 9) + 'B';
         const sql = `INSERT INTO servicebooking (idServiceBooking, idUser, idEmployee, idService, startDate) VALUES (?)`;
         const values = [
-            idServiceBooking,
+            // idServiceBooking,
+            req.body.idServiceBooking,
             req.body.idUser,
             req.body.idEmployee,
             req.body.idService,
             req.body.startDate
         ]
         connection.query(sql, [values], (err, result) => {
-            console.log("id Service Booking: ", idServiceBooking);
+            console.log("id Service Booking: ", req.body.idServiceBooking);
             console.log("id User: ", req.body.idUser);
             console.log('id Employee: ', req.body.idEmployee);
             console.log("id Service: ", req.body.idService);
@@ -46,7 +47,7 @@ class bookingController {
                 console.log(err);
                 return res.json({ Error: "Inserting booking service error in server" });
             }
-            else return res.json({ Status: "Success" });
+            else return res.json({ Status: "Success", bookingId: req.body.bookingId });
         })
     }
 }
