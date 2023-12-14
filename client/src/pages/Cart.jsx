@@ -104,7 +104,7 @@ function Cart() {
                 <Grid item xs={2}>
                   <Stack justifyContent={"center"} height={"100%"}>
                     <Typography variant="subtitle2">
-                      {formatCurrency(cart.price, "vi-VN", "VND")}
+                      {formatCurrency(cart.price, "en-US", "USD")}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -142,8 +142,8 @@ function Cart() {
                     <Typography variant="subtitle2">
                       {formatCurrency(
                         Number(cart.price) * Number(cart.quantity),
-                        "vi-VN",
-                        "VND"
+                        "en-US",
+                        "USD"
                       )}
                     </Typography>
                   </Stack>
@@ -189,7 +189,7 @@ function Cart() {
             <Box display={"flex"} justifyContent={"space-between"}>
               <Typography variant="h6">Subtotal</Typography>
               <Typography variant="h6">
-                {formatCurrency(calculateTotalPrice(), "vi-VN", "VND")}
+                {formatCurrency(calculateTotalPrice(), "en-US", "USD")}
               </Typography>
             </Box>
             <Box mt={2}>

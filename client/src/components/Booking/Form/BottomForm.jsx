@@ -53,6 +53,8 @@ const BottomForm = () => {
   const [selectedStaffId, setSelectedStaffId] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const bookingId = uuidv4().substring(0, 9) + 'B';
+  const bookingIdPayment = uuidv4().substring(0, 9) + 'P';
+
 
   const navigate = useNavigate();
 
@@ -91,7 +93,7 @@ const BottomForm = () => {
       setSelectedServiceId(selectedServiceObject.idService);
     }
     // Store the service price in localStorage
-    localStorage.setItem('selectedServicePrice', selectedServiceObject.price.toLocaleString('vi-VN'));
+    localStorage.setItem('selectedServicePrice', selectedServiceObject.price.toString());
   };
 
   const handleStaffSelect = (value) => {
@@ -120,6 +122,7 @@ const BottomForm = () => {
 
 
     const selectedChoices = {
+      bookingIdPayment,
       bookingId,
       selectedClinic,
       selectedDate,
@@ -176,7 +179,6 @@ const BottomForm = () => {
               <Label text="Thời gian đặt lịch" isRequired />
               <div className="flex flex-row md:flex-col gap-x-6 gap-y-5">
                 <div className="flex flex-col w-1/3 gap-4 md:w-full">
-                  <Label text="Ngày đặt lịch" isRequired />
                   <TextField
                     type="date"
                     onChange={(e) => setSelectedDate(e.target.value)}
@@ -188,6 +190,7 @@ const BottomForm = () => {
                   {formErrors.selectedDate && (
                     <div className="text-red-500">{formErrors.selectedDate}</div>
                   )}
+                  <Label text="Ngày đặt lịch" isRequired />
                   <DropMenu
                     onChange={(e) => setTimestamp(e.target.value)}
                     value={timestamp}
@@ -234,7 +237,7 @@ const BottomForm = () => {
                 <span className="text-[#707070] text-lg font-bold">
                   {selectedService} -
                   <span style={{ color: '#F5637E' }}>
-                    {serviceOptions.find((option) => option.nameService === selectedService)?.price.toLocaleString('vi-VN')}đ
+                    {serviceOptions.find((option) => option.nameService === selectedService)?.price.toLocaleString('en-US')}$
                   </span>
                 </span>
               </div>

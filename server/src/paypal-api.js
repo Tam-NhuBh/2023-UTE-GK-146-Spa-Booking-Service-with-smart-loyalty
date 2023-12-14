@@ -1,47 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const bodyParser = require('body-parser');
+const fetch = import('node-fetch');
 const dotenv = require("dotenv");
-// const paypal = require('./paypal-api');
 
-const { connection } = require('./config/db');
 dotenv.config();
-
-const app = express();
-app.use(express.json());
-app.use(
-    express.urlencoded({
-        extended: true,
-    }),
-);
-const route = require('./routes/index');
-const port = process.env.port || 8000;
-
-app.use(express.static("client"));
-// Register the product controller
-app.use(bodyParser.json());
-app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "HEAD"],
-    credentials: true,
-}));
-
-app.use(cookieParser());
-
-
-// Connect to the database
-connection.connect((err) => {
-    if (err) {
-        console.log("Database Connection Failed !!!", err);
-    } else {
-        console.log("connected to Database");
-    }
-});
-app.use(express.json())
-route(app);
-
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
@@ -63,7 +23,6 @@ const generateAccessToken = async () => {
         });
 
         const data = await response.json();
-        console.log("token:", data.access_token)
         return data.access_token;
     } catch (error) {
         console.error("Failed to generate Access Token:", error);
@@ -77,19 +36,15 @@ const createOrder = async (data) => {
         data,
     );
 
-    const formattedPrice = parseInt(data[0].price.toString().replace('.', ''));
-
-    console.log("Price formatted:", formattedPrice)
     const accessToken = await generateAccessToken();
-    console.log("Token in createOrder:", accessToken);
     const url = `${base}/v2/checkout/orders`;
     const payload = {
         intent: "CAPTURE",
         purchase_units: [
             {
                 amount: {
-                    currency_code: "USD",
-                    value: data[0].price,
+                    currency_code: "VND",
+                    value: data.service.price,
                 },
             },
         ],
@@ -145,31 +100,8 @@ async function handleResponse(response) {
     }
 }
 
-app.post("/api/orders", async (req, res) => {
-    try {
-        // use the cart information passed from the front-end to calculate the order amount detals
-        const { service } = req.body;
-        const { jsonResponse, httpStatusCode } = await createOrder(service);
-        res.status(httpStatusCode).json(jsonResponse);
-    } catch (error) {
-        console.error("Failed to create order:", error);
-        res.status(500).json({ error: "Failed to create order." });
-    }
-});
-
-app.post("/api/orders/:orderID/capture", async (req, res) => {
-    try {
-        const { orderID } = req.params;
-        const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-        res.status(httpStatusCode).json(jsonResponse);
-    } catch (error) {
-        console.error("Failed to create order:", error);
-        res.status(500).json({ error: "Failed to capture order." });
-    }
-});
-
-
-app.listen(port, () => {
-    console.log(`Listening to port: http://localhost:${port}`)
-    // console.log(PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET)
-});
+module.exports = {
+    generateAccessToken,
+    createOrder,
+    captureOrder
+}

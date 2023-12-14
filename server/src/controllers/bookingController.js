@@ -27,21 +27,42 @@ class bookingController {
         })
     }
     //[POST] Submit Booking
-    submitBooking(req, res, next) {
-        // const idServiceBooking = uuidv4().substring(0, 9) + 'B';
-        const sql = `INSERT INTO servicebooking (idServiceBooking, idUser, idEmployee, idService, startDate) VALUES (?)`;
+    submitBookingPayment(req, res, next) {
+        const sql = `INSERT INTO paymentservice (idPaymentService, idUser, idService, createDate, bank, price) VALUES (?)`;
         const values = [
-            // idServiceBooking,
-            req.body.idServiceBooking,
+            req.body.idPaymentService,
             req.body.idUser,
-            req.body.idEmployee,
             req.body.idService,
-            req.body.startDate
+            req.body.createDate,
+            req.body.bank,
+            req.body.price
         ]
         connection.query(sql, [values], (err, result) => {
             console.log("id Service Booking: ", req.body.idServiceBooking);
             console.log("id User: ", req.body.idUser);
-            console.log('id Employee: ', req.body.idEmployee);
+            // console.log('id Employee: ', req.body.idEmployee);
+            console.log("id Service: ", req.body.idService);
+            if (err) {
+                console.log(err);
+                return res.json({ Error: "Inserting booking service error in server" });
+            }
+            else return res.json({ Status: "Success", bookingId: req.body.bookingId });
+        })
+    }
+
+    submitBooking(req, res, next) {
+        const sql = `INSERT INTO servicebooking (idServiceBooking, idUser, idEmployee, idService, startDate) VALUES (?)`;
+        const values = [
+            req.body.idServiceBooking,
+            req.body.idUser,
+            req.body.idEmployee,
+            req.body.idService,
+            req.body.startDate,
+        ]
+        connection.query(sql, [values], (err, result) => {
+            console.log("id Service Booking: ", req.body.idServiceBooking);
+            console.log("id User: ", req.body.idUser);
+            // console.log('id Employee: ', req.body.idEmployee);
             console.log("id Service: ", req.body.idService);
             if (err) {
                 console.log(err);
