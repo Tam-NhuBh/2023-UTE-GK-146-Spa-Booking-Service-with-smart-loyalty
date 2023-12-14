@@ -1,3 +1,4 @@
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import {
   Grid,
   Box,
@@ -14,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { formatCurrency } from "../uitls/helper/changeCurrency";
 import ProductComponent from "../components/Cart/productList";
 import { fetchCartItemDetail, addToCart, dfetchdetail, rfetchdetail, removeAllProduct } from '../redux/reducer/cartSlice';
+import PayPalPayment from "./PayPalPayment";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -59,8 +61,16 @@ function Cart() {
     return totalPrice;
   };
 
+  //initial option for Paypal Script Provider
+  const initialOptions = {
+    clientId: "AR_zn87-BAB8f449hDKaL3kAmpQ_F1P9hsm_qUQY8IXIMTASxZLCUGgNX83xMTEXQVR_NLyrZps_uJwl",
+    currency: "USD",
+    intent: "capture",
+};
+
   return (
     <Container style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <PayPalScriptProvider options={initialOptions}>
       <Box py={4}>
         <Typography textAlign={"center"} fontSize={26} fontWeight={"bold"}>
           Shopping Cart
@@ -104,7 +114,7 @@ function Cart() {
                 <Grid item xs={2}>
                   <Stack justifyContent={"center"} height={"100%"}>
                     <Typography variant="subtitle2">
-                      {formatCurrency(cart.price, "vi-VN", "VND")}
+                      {formatCurrency(cart.price, "en-US", "USD")}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -142,8 +152,8 @@ function Cart() {
                     <Typography variant="subtitle2">
                       {formatCurrency(
                         Number(cart.price) * Number(cart.quantity),
-                        "vi-VN",
-                        "VND"
+                        "en-US",
+                        "USD"
                       )}
                     </Typography>
                   </Stack>
@@ -189,7 +199,7 @@ function Cart() {
             <Box display={"flex"} justifyContent={"space-between"}>
               <Typography variant="h6">Subtotal</Typography>
               <Typography variant="h6">
-                {formatCurrency(calculateTotalPrice(), "vi-VN", "VND")}
+                {formatCurrency(calculateTotalPrice(), "en-US", "USD")}
               </Typography>
             </Box>
             <Box mt={2}>
@@ -198,13 +208,15 @@ function Cart() {
               </Typography>
             </Box>
             <Box mt={2}>
-              <Button fullWidth variant="contained">
-                CHECKOUT
+              <Button  style={{  borderRadius:"0px",}} fullWidth variant="contained">
+                CHECKOUT WITH
               </Button>
+              <PayPalPayment productData={Cart}/>
             </Box>
           </Box>
         </Box>
       </Box>
+      </PayPalScriptProvider>
     </Container>
   );
 }
