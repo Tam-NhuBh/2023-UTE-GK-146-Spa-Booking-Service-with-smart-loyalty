@@ -1,8 +1,13 @@
-# React + Vite
+There are 2 main folder: client and server
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+In visual studio code, turn on 3 terminal, 1 access client folder, 1 access serverand the last one is in the outermost file. Run these commandline:
+- With client: npm i  --force
+- With server: npm i
+- With last one: npm i
 
-Currently, two official plugins are available:
+After finish installing all npm modules that needs, in client terminal, run: npm run dev
+With server terminal, run npm start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+you can change your database information in server/src/config/db
+
+ENV file is for saving Paypal client information
