@@ -3,7 +3,6 @@ import { BiSolidCartAlt } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 import {  useSelector } from 'react-redux';
 
-import Axios from 'axios'
 // Component để sử dụng Redux Thunk để lấy số lượng sản phẩm trong giỏ hàng
 const CartComponent = () => {
   const navigate = useNavigate()

@@ -7,7 +7,7 @@ function ProductComponent() {
   const listCart = useSelector((state) => state.cart.cartItems);
   // const userId = "84c1fdf8-U";
   const userId = localStorage.getItem("idUser");
-  const productId = "124";
+  // const productId = "124";
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleProductDetails = async (productId) => {
