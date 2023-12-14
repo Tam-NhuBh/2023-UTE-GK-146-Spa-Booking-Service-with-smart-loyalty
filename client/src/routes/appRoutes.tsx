@@ -72,28 +72,28 @@ const appRoutes = [
       },
     ],
   },
-  {
-    path: "/admin/order",
-    element: <OrderPageLayout />,
-    state: "order",
-    sidebarProps: {
-      displayText: "Quản lý dịch vụ",
-      icon: <AppsOutlinedIcon />,
-    },
-    child: [
-      {
-        path: "/admin/order/list",
-        element: <AlertPage />,
-        state: "order.list",
-        sidebarProps: {
-          displayText: "Danh sách dịch vụ",
-          icon: (
-            <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
-          ),
-        },
-      },
-    ],
-  },
+  // {
+  //   path: "/admin/order",
+  //   element: <OrderPageLayout />,
+  //   state: "order",
+  //   sidebarProps: {
+  //     displayText: "Quản lý dịch vụ",
+  //     icon: <AppsOutlinedIcon />,
+  //   },
+  //   child: [
+  //     {
+  //       path: "/admin/order/list",
+  //       element: <AlertPage />,
+  //       state: "order.list",
+  //       sidebarProps: {
+  //         displayText: "Danh sách dịch vụ",
+  //         icon: (
+  //           <FiberManualRecordOutlinedIcon sx={{ width: 10, height: 10 }} />
+  //         ),
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: "/admin/customer",
     element: <GuestPageLayout />,

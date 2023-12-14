@@ -12,6 +12,8 @@ import { HiOutlineArrowRight } from 'react-icons/hi'
 import Axios from 'axios'
 import { validateBookingForm } from '../../../../../server/src/models/bookingValidation'; // Import the validation function
 import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid';
+
 
 const timestampList = [
   '09:00',
@@ -50,24 +52,13 @@ const BottomForm = () => {
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [selectedStaffId, setSelectedStaffId] = useState('');
   const [formErrors, setFormErrors] = useState({});
+  const bookingId = uuidv4().substring(0, 9) + 'B';
+  const bookingIdPayment = uuidv4().substring(0, 9) + 'P';
+
+
+  const navigate = useNavigate();
 
   const idUser = localStorage.getItem("idUser");
-
-  useEffect(() => {
-    // Retrieve stored form data on component mount
-    const storedFormData = JSON.parse(localStorage.getItem('bookingFormData'));
-
-    if (storedFormData) {
-      // Populate the form with stored data
-      setSelectedClinic(storedFormData.selectedClinic || '');
-      setSelectedDate(storedFormData.selectedDate || '');
-      setTimestamp(storedFormData.timestamp || '');
-      setSelectedService(storedFormData.selectedService || '');
-      setSelectedStaff(storedFormData.selectedStaff || '');
-      setSelectedSendMail(storedFormData.selectedSendMail || '');
-      setAddition(storedFormData.addition || '');
-    }
-  }, []);
 
   Axios.defaults.withCredentials = true;
 
@@ -101,6 +92,8 @@ const BottomForm = () => {
     if (selectedServiceObject) {
       setSelectedServiceId(selectedServiceObject.idService);
     }
+    // Store the service price in localStorage
+    localStorage.setItem('selectedServicePrice', selectedServiceObject.price.toString());
   };
 
   const handleStaffSelect = (value) => {
@@ -125,34 +118,39 @@ const BottomForm = () => {
     // Validate the form
     const errors = validateBookingForm(formData);
     setFormErrors(errors);
+    const dateTime = `${selectedDate} ${timestamp}`;
+
+
+    const selectedChoices = {
+      bookingIdPayment,
+      bookingId,
+      selectedClinic,
+      selectedDate,
+      timestamp,
+      selectedService,
+      selectedStaff,
+      selectedSendMail,
+      selectedServiceId,
+      selectedStaffId,
+      addition,
+      dateTime
+    };
+    localStorage.setItem('bookingChoices', JSON.stringify(selectedChoices));
 
     if (Object.keys(errors).length > 0) {
-      console.log('Form validation failed.');
+      alert('Hãy điền đầy đủ thông tin');
       return;
     }
 
-    const dateTime = `${selectedDate} ${timestamp}`;
-
     // Here, you can add the logic to handle the form submission
     console.log('Form submitted!');
+    console.log('Booking ID:', bookingId);
     console.log('Selected Service ID:', selectedServiceId);
     console.log('Selected Employee ID:', selectedStaffId);
     console.log('Selected User ID:', idUser);
     console.log("other info:", selectedClinic, selectedSendMail, timestamp, selectedDate, addition);
 
-    try {
-      const res = await Axios.post('http://localhost:8000/booking/submitBooking', {
-        idUser: idUser,
-        idEmployee: selectedStaffId,
-        idService: selectedServiceId,
-        startDate: dateTime
-      })
-      if (res.data.Status === "Success") {
-        console.log("Booking Successful");
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    navigate(`/booking/confirm/${bookingId}`);
   };
 
   return (
@@ -181,7 +179,6 @@ const BottomForm = () => {
               <Label text="Thời gian đặt lịch" isRequired />
               <div className="flex flex-row md:flex-col gap-x-6 gap-y-5">
                 <div className="flex flex-col w-1/3 gap-4 md:w-full">
-                  <Label text="Ngày đặt lịch" isRequired />
                   <TextField
                     type="date"
                     onChange={(e) => setSelectedDate(e.target.value)}
@@ -193,6 +190,7 @@ const BottomForm = () => {
                   {formErrors.selectedDate && (
                     <div className="text-red-500">{formErrors.selectedDate}</div>
                   )}
+                  <Label text="Ngày đặt lịch" isRequired />
                   <DropMenu
                     onChange={(e) => setTimestamp(e.target.value)}
                     value={timestamp}
@@ -239,7 +237,7 @@ const BottomForm = () => {
                 <span className="text-[#707070] text-lg font-bold">
                   {selectedService} -
                   <span style={{ color: '#F5637E' }}>
-                    {serviceOptions.find((option) => option.nameService === selectedService)?.price.toLocaleString('vi-VN')}đ
+                    {serviceOptions.find((option) => option.nameService === selectedService)?.price.toLocaleString('en-US')}$
                   </span>
                 </span>
               </div>

@@ -50,8 +50,7 @@ function ProductItem({ img, title, price, width, disableShadow = false, id }) {
         <Box textAlign={'center'} p={1.25}>
           <Title>{title}</Title>
           <Price>
-            <Typography>{price}</Typography>
-            <span>₫</span>
+            <Typography>${price}</Typography>
           </Price>
         </Box>
       </Box>
