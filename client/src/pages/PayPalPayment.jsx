@@ -31,7 +31,6 @@ const PayPalPayment = () => {
       }, []);
 
  const createOrder = (data) => {
-    const productData = products; // Assuming there is only one product in the array
     return fetch("http://localhost:8000/api/orders", {
       method: "POST",
       headers: {
@@ -40,9 +39,9 @@ const PayPalPayment = () => {
       body: JSON.stringify({
         productPayment: [
           {
-            nameProducts: productData.nameProduct,
-            prices: productData.price,
-            quantitys: productData.quantity,
+            price: products.price,
+            quantity: products.quantity,
+            nameProduct: products.nameProduct,
           },
         ],
       }),
@@ -82,7 +81,7 @@ const PayPalPayment = () => {
 
   return (
     <PayPalButtons
-      createOrder={() => createOrder()}
+      createOrder={(data, actions) => createOrder(data, actions)}
       onApprove={(data, actions) => onApprove(data, actions)}
     />
   );

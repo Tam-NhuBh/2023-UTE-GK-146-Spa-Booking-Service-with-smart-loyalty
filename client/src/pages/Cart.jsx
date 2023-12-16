@@ -211,7 +211,7 @@ function Cart() {
               <Button  style={{  borderRadius:"0px",}} fullWidth variant="contained">
                 CHECKOUT WITH
               </Button>
-              <PayPalPayment productData={Cart}/>
+              <PayPalPayment/>
             </Box>
           </Box>
         </Box>
